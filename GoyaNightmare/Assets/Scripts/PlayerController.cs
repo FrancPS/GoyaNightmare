@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/* 
+/*
  * This script is responsible for controlling the player and all its actions
  * Movement => Horizontal and vertical axis control the player movement, that is set as a NavMesh agent.
  */

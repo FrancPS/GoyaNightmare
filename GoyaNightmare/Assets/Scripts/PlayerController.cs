@@ -11,6 +11,7 @@ using UnityEngine.AI;
 public class PlayerController : MonoBehaviour
 {
     public float speedMultiplier;
+    public float sprintStaminaCost;
 
     Vector3 movement;
     NavMeshAgent agent;
@@ -30,18 +31,25 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // SPRINT & STAMINA
-        sprinting = Input.GetButton("Sprint");
-
-        // ----- MOVEMENT
         // Get Input
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
+        sprinting = Input.GetButton("Sprint") && StaminaBar.instance.HasStamina();
 
         // Set input to local coordinates
         movement = transform.right * horizontalInput + transform.forward * verticalInput;
 
         // Apply movement to the navmesh agent
         agent.Move(movement * Time.deltaTime * (sprinting ? agent.speed * speedMultiplier : agent.speed));
+
+        if (sprinting)
+        {
+            StaminaBar.instance.UseStamina(sprintStaminaCost); // Update stamina bar
+            // TODO: Run audio
+        }
+        else
+        {
+            // TODO: Walk audio
+        }
     }
 }

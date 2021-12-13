@@ -4,9 +4,9 @@ using UnityEngine;
 
 /* 
  * This script is responsible for controlling the lantern.
- * Activate and deactivate light using F key and set the global "lanternOn" variable
- * Flickering =>
- * Sprinting offset.
+ * Activate and deactivate light using F key and set the "lanternOn" global variable. <- TODO
+ * Flickering.
+ * TODO: Sprinting offset.
  */
 
 public class LanternController : MonoBehaviour
@@ -16,6 +16,10 @@ public class LanternController : MonoBehaviour
     public float maxIncrease;
     public float rateDamping;
     public float strength;
+
+    [Header("Audios")]
+    public AudioSource audioOpen;
+    public AudioSource audioClose;
 
     Light lantern;
     float storedIntensity;
@@ -39,6 +43,8 @@ public class LanternController : MonoBehaviour
         if (Input.GetButtonDown("Lantern"))
         {
             lantern.enabled = !lantern.enabled;
+            if (lantern.enabled) audioOpen.Play();
+            else audioClose.Play();
         }
     }
 

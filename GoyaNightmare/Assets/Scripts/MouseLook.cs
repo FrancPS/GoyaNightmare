@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* This script is responsible for controlling the player camera rotation based on the mouse movement.
+/* 
+ * This script is responsible for controlling the player camera rotation based on the mouse movement.
  * Mouse horizontal movement => Rotate the player object on its Y axis.
  * Mouse vertical movement => Rotate the camera on its X axis.
  * The camera rotation is clamped to +-60º.
  */
+
 public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 100f;

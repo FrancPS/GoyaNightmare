@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
         if (sprinting)
         {
-            StaminaBar.instance.UseStamina(sprintStaminaCost); // Update stamina bar
+            StaminaBar.instance.UseStamina(sprintStaminaCost    ); // Update stamina bar
             // TODO: Run audio
         }
         else

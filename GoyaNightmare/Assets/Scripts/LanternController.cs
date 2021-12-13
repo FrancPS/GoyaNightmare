@@ -17,6 +17,10 @@ public class LanternController : MonoBehaviour
     public float rateDamping;
     public float strength;
 
+    [Header("Audios")]
+    public AudioSource audioOpen;
+    public AudioSource audioClose;
+
     Light lantern;
     float storedIntensity;
 
@@ -39,6 +43,8 @@ public class LanternController : MonoBehaviour
         if (Input.GetButtonDown("Lantern"))
         {
             lantern.enabled = !lantern.enabled;
+            if (lantern.enabled) audioOpen.Play();
+            else audioClose.Play();
         }
     }
 

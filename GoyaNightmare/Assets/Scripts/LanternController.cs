@@ -4,9 +4,9 @@ using UnityEngine;
 
 /* 
  * This script is responsible for controlling the lantern.
- * Activate and deactivate light using F key and set the global "lanternOn" variable
- * Flickering =>
- * Sprinting offset.
+ * Activate and deactivate light using F key and set the "lanternOn" global variable. <- TODO
+ * Flickering.
+ * TODO: Sprinting offset.
  */
 
 public class LanternController : MonoBehaviour

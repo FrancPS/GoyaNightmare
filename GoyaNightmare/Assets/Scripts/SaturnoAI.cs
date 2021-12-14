@@ -19,7 +19,7 @@ public class SaturnoAI : MonoBehaviour
     // Teleport
     bool seenByPlayer;
     bool leftPlayerSight;
-    float playerFarAwayTimer;
+    float playerFarAwayTimer = 0.0f;
 
     void Awake()
     {
@@ -43,7 +43,7 @@ public class SaturnoAI : MonoBehaviour
         else
         {
             UpdateSpeed();
-            TeleportSaturno();
+            ShouldTeleportSaturno();
             // Update position
             agent.isStopped = false;
             destination = player.GetComponent<NavMeshAgent>().steeringTarget;
@@ -74,7 +74,7 @@ public class SaturnoAI : MonoBehaviour
         }
     }
 
-    bool TeleportSaturno()
+    bool ShouldTeleportSaturno()
     {
         Vector3 playerToSaturno = transform.position - player.transform.position;
         if (playerToSaturno.magnitude > teleportTriggeringDistance)
@@ -82,25 +82,35 @@ public class SaturnoAI : MonoBehaviour
             // Player escapes from Saturno
             if (leftPlayerSight)
             {
-                int index = (int)Random.Range(0.0f, spawnPoints.Length);
-                agent.Warp(spawnPoints[index].position);
-                leftPlayerSight = false;
+                Teleportation();
 
                 return true;
             }
 
             playerFarAwayTimer += Time.deltaTime;
+
             if (playerFarAwayTimer >= teleportTriggeringTime)
             {
-                playerFarAwayTimer = 0;
-                int index = (int)Random.Range(0.0f, spawnPoints.Length);
-                agent.Warp(spawnPoints[index].position);
-                leftPlayerSight = false;
+                playerFarAwayTimer = 0.0f;
+                Teleportation();
+
                 return true;
             }
         }
         return false;
 
+    }
+
+    void Teleportation()
+    {
+        int index;
+        do
+        {
+            index = (int)Random.Range(0.0f, spawnPoints.Length);
+        } while ((spawnPoints[index].position - player.transform.position).magnitude < (teleportTriggeringDistance / 2));
+
+        agent.Warp(spawnPoints[index].position);
+        leftPlayerSight = false;
     }
 
 }

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     Vector3 movement;
     NavMeshAgent agent;
     bool sprinting;
+    public bool inSafeZone = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -50,6 +51,22 @@ public class PlayerController : MonoBehaviour
         else
         {
             // TODO: Walk audio
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "SafeRoom")
+        {
+            inSafeZone = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.name == "SafeRoom")
+        {
+            inSafeZone = false;
         }
     }
 }

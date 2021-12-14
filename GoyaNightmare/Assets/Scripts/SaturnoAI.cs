@@ -36,18 +36,26 @@ public class SaturnoAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!lantern.enabled)
+        if (player.GetComponent<PlayerController>().inSafeZone)
         {
-            agent.isStopped = true;
+            agent.isStopped = false;
+            agent.SetDestination(spawnPoints[0].position);
         }
         else
         {
-            UpdateSpeed();
-            ShouldTeleportSaturno();
-            // Update position
-            agent.isStopped = false;
-            destination = player.GetComponent<NavMeshAgent>().steeringTarget;
-            agent.SetDestination(destination);
+            if (!lantern.enabled)
+            {
+                agent.isStopped = true;
+            }
+            else
+            {
+                UpdateSpeed();
+                ShouldTeleportSaturno();
+                // Update position
+                agent.isStopped = false;
+                destination = player.GetComponent<NavMeshAgent>().steeringTarget;
+                agent.SetDestination(destination);
+            }
         }
     }
 

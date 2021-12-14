@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: bedaa2141b2327a44bcb06c5af9994b0, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!4 &9712513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7006217117235456552, guid: 001799457ea58904185ca02aa8fcf64a, type: 3}
@@ -1257,6 +1257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMultiplier: 2.3
   sprintStaminaCost: 0.025
+  inSafeZone: 0
 --- !u!195 &155460264
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3983,6 +3984,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 688000224}
+  - component: {fileID: 688000226}
+  - component: {fileID: 688000225}
   m_Layer: 0
   m_Name: SafeRoom
   m_TagString: Untagged
@@ -4013,6 +4016,35 @@ Transform:
   m_Father: {fileID: 1211199248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688000225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688000223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: f46d2d58
+--- !u!65 &688000226
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688000223}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 5, z: 15}
+  m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!1001 &690027681
 PrefabInstance:
   m_ObjectHideFlags: 0

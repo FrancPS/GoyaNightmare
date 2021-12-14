@@ -21,6 +21,8 @@ public class SaturnoAI : MonoBehaviour
     bool leftPlayerSight;
     float playerFarAwayTimer = 0.0f;
 
+    bool turnVisible;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -36,6 +38,13 @@ public class SaturnoAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 playerToSaturno = transform.position - player.transform.position;
+        if (turnVisible && Vector3.Dot(playerToSaturno, player.transform.forward) < 0.0f)
+        {
+            GetComponent<MeshRenderer>().enabled = true;
+            turnVisible = false;
+        }
+
         if (player.GetComponent<PlayerController>().inSafeZone)
         {
             agent.isStopped = false;
@@ -119,6 +128,22 @@ public class SaturnoAI : MonoBehaviour
 
         agent.Warp(spawnPoints[index].position);
         leftPlayerSight = false;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.name.Contains("Obstacle"))
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.name.Contains("Obstacle"))
+        {
+            turnVisible = true;
+        }
     }
 
 }

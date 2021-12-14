@@ -1090,6 +1090,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3042912298435997304, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
+      propertyPath: teleportTriggeringTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3042912298435997304, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 1584098319}
@@ -1099,7 +1103,7 @@ PrefabInstance:
       objectReference: {fileID: 746228276}
     - target: {fileID: 3042912298435997304, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
       propertyPath: teleportTriggeringDistance
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 3042912298435997305, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
       propertyPath: m_RootOrder
@@ -1145,9 +1149,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3042912298435997307, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3042912298435997309, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
       propertyPath: m_Name
       value: Saturno
+      objectReference: {fileID: 0}
+    - target: {fileID: 3042912298435997311, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3042912298435997311, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1155,6 +1167,27 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 46ba19fdbee18f04fa82fb837245fca1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
+--- !u!1 &139563843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3042912298435997309, guid: 026488bc588e7ae41b80d1720ffa7d82, type: 3}
+  m_PrefabInstance: {fileID: 139563842}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &139563844
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139563843}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &148408967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11021,6 +11054,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1211199248}
     m_Modifications:
+    - target: {fileID: 1493985222801895925, guid: 2b4a30b4803deca4db6e9b420e771e8e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1493985223537348010, guid: 2b4a30b4803deca4db6e9b420e771e8e, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -11068,6 +11105,10 @@ PrefabInstance:
     - target: {fileID: 1493985223537348013, guid: 2b4a30b4803deca4db6e9b420e771e8e, type: 3}
       propertyPath: m_Name
       value: Pantry
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493985223537348013, guid: 2b4a30b4803deca4db6e9b420e771e8e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b4a30b4803deca4db6e9b420e771e8e, type: 3}

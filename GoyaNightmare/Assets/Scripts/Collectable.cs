@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
+
 public class Collectable : MonoBehaviour
 {
     // Public Variables
@@ -74,6 +76,8 @@ public class Collectable : MonoBehaviour
         camera = cameraGO.GetComponent<Camera>();
         particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
+
+        if (paiting) paiting.SetActive(false);
     }
 
     void Update()
@@ -94,6 +98,9 @@ public class Collectable : MonoBehaviour
         if (collectableHUD) collectableHUD.SetActive(false);
 
         meshRenderer.enabled = false;
+
+        LevelController.ChangeLevel();
+        
     }
 
     void UpdateCollectable()

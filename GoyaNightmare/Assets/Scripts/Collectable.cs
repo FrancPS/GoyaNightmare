@@ -19,8 +19,8 @@ public class Collectable : MonoBehaviour
     [Header("HUD")]
     public GameObject collectableHUD;
 
-    [Header("Releated Paiting GO")]
-    public GameObject paiting;
+    [Header("Releated Painting GO")]
+    public GameObject painting;
 
     // Private Variables
     uint id = 0;
@@ -76,8 +76,6 @@ public class Collectable : MonoBehaviour
         camera = cameraGO.GetComponent<Camera>();
         particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
-
-        if (paiting) paiting.SetActive(false);
     }
 
     void Update()
@@ -91,8 +89,13 @@ public class Collectable : MonoBehaviour
     {
         isCollected = true;
         isCollectable = false;
-        
-        if (paiting) paiting.SetActive(true);
+
+        if (painting)
+        {
+            Painting paintingScript = painting.GetComponent<Painting>();
+            if (paintingScript) paintingScript.ChangeMaterial();
+        }
+
         if (particleSystem) particleSystem.Play();
         if (audioSource) audioSource.Play();
         if (collectableHUD) collectableHUD.SetActive(false);

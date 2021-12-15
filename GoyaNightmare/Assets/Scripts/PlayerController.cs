@@ -19,13 +19,15 @@ public class PlayerController : MonoBehaviour
     public AudioSource stepsAudioRun;
     public GameObject breathAudios;
     public AudioSource facingSaturnoAudio;
+    public float facingSaturnoAudioTimer = 20f;
     public AudioSource distanceSaturnoAudio;
 
 
     [Header("Dead parameters")]
     public GameObject saturno;
     public float deathTimer = 20f;
-    public float minDistanceDanger = 30;
+    public float minDistanceContactDanger = 30;
+    public float minDistanceAreaDanger = 20;
     public float recoverOnSafeZone = 4f;
     public float recoverOutsideSazeZone = 2f;
 
@@ -33,7 +35,8 @@ public class PlayerController : MonoBehaviour
     public float currentDeathTimer = 0f;
     public float playerToSaturnoDistance = 0f;
     public bool seenByPlayer = false;
-    public float facingSaturnoAudioTimer = 20f;
+    public float remaningFacingSaturnoAudioTimer = 0f;
+
 
     Vector3 movement;
     NavMeshAgent agent;
@@ -172,17 +175,17 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (seenByPlayer && playerToSaturnoDistance < minDistanceDanger)
+            if (seenByPlayer && playerToSaturnoDistance < minDistanceContactDanger)
             {
                 currentDeathTimer += Time.deltaTime;
 
-                if (facingSaturnoAudioTimer <= 0)
+                if (remaningFacingSaturnoAudioTimer <= 0)
                 {
                     facingSaturnoAudio.Play();
-                    facingSaturnoAudioTimer = 15f;
+                    remaningFacingSaturnoAudioTimer = facingSaturnoAudioTimer;
                 }
             }
-            else if (playerToSaturnoDistance < minDistanceDanger)
+            else if (playerToSaturnoDistance < minDistanceAreaDanger)
             {
                 if (currentDeathTimer <= 3)
                 {
@@ -214,7 +217,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Timers
-        if (facingSaturnoAudioTimer > 0) facingSaturnoAudioTimer -= Time.deltaTime;
+        if (remaningFacingSaturnoAudioTimer > 0) remaningFacingSaturnoAudioTimer -= Time.deltaTime;
 
         if (currentDeathTimer >= deathTimer)
         {

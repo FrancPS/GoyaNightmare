@@ -24,10 +24,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dead parameters")]
     public GameObject saturno;
-    public float minDistanceDanger = 10;
+    public float deathTimer = 20f;
+    public float minDistanceDanger = 30;
     public float recoverOnSafeZone = 4f;
     public float recoverOutsideSazeZone = 2f;
 
+    [Header("Read-only")]
+    public float currentDeathTimer = 0f;
+    public float playerToSaturnoDistance = 0f;
+    public bool seenByPlayer = false;
+    public float facingSaturnoAudioTimer = 20f;
 
     Vector3 movement;
     NavMeshAgent agent;
@@ -44,10 +50,6 @@ public class PlayerController : MonoBehaviour
 
     // Death parameters
     SaturnoAI saturnoAI;
-    float deathTimer = 20f;
-    float currentDeathTimer = 0f;
-
-    float facingSaturnoAudioTimer = 20f;
 
     // Start is called before the first frame update
     void Awake()
@@ -159,22 +161,17 @@ public class PlayerController : MonoBehaviour
 
     private bool UpdateDeathCondition()
     {
-        Debug.Log(currentDeathTimer);
-
         if (!saturnoAI) return false;
+
+        playerToSaturnoDistance = saturnoAI.GetPlayerToSaturnoDistance();
+        seenByPlayer = saturnoAI.GetSeenByPlayer();
 
         if (inSafeZone)
         {
             if (currentDeathTimer > 0) currentDeathTimer -= Time.deltaTime * recoverOnSafeZone;
-            if (distanceSaturnoAudio.isPlaying) distanceSaturnoAudio.Stop();
-
         }
         else
         {
-
-            float playerToSaturnoDistance = saturnoAI.GetPlayerToSaturnoDistance();
-            bool seenByPlayer = saturnoAI.GetSeenByPlayer();
-
             if (seenByPlayer && playerToSaturnoDistance < minDistanceDanger)
             {
                 currentDeathTimer += Time.deltaTime;
@@ -184,9 +181,6 @@ public class PlayerController : MonoBehaviour
                     facingSaturnoAudio.Play();
                     facingSaturnoAudioTimer = 15f;
                 }
-
-
-
             }
             else if (playerToSaturnoDistance < minDistanceDanger)
             {
@@ -194,20 +188,30 @@ public class PlayerController : MonoBehaviour
                 {
                     currentDeathTimer += Time.deltaTime;
                 }
-
-                if (!distanceSaturnoAudio.isPlaying) distanceSaturnoAudio.Play();
-
             }
             else
             {
                 if (currentDeathTimer > 0) currentDeathTimer -= Time.deltaTime * recoverOutsideSazeZone;
-                if (distanceSaturnoAudio.isPlaying) distanceSaturnoAudio.Stop();
             }
         }
 
+        
+        if (currentDeathTimer < 0) currentDeathTimer = 0;
+        float deathPercentage = currentDeathTimer / deathTimer;
+
         // Camera Material
-        cameraMaterial.SetFloat("_DarknessFactor", currentDeathTimer / deathTimer);
-        cameraMaterial.SetFloat("_DistortionFactor", currentDeathTimer / deathTimer);
+        cameraMaterial.SetFloat("_DarknessFactor", deathPercentage);
+        cameraMaterial.SetFloat("_DistortionFactor", deathPercentage);
+
+        // Audios
+        if (distanceSaturnoAudio.isPlaying)
+        {
+            distanceSaturnoAudio.volume = Mathf.Lerp(0, 0.5f, deathPercentage);
+        }
+        else
+        {
+            distanceSaturnoAudio.Play();
+        }
 
         // Timers
         if (facingSaturnoAudioTimer > 0) facingSaturnoAudioTimer -= Time.deltaTime;

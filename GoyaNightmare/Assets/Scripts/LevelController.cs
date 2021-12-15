@@ -119,5 +119,10 @@ public class LevelController : MonoBehaviour
         AudioController.ChangeLevelMusic(5);
         Debug.Log("Game Finished!!!!!!!!");
     }
+
+    public static void Death()
+    {
+        Debug.Log("You're death!!!!!!!!");
+    }
 }
 

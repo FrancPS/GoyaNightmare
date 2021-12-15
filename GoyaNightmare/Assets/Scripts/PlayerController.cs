@@ -18,6 +18,16 @@ public class PlayerController : MonoBehaviour
     public AudioSource stepsAudio;
     public AudioSource stepsAudioRun;
     public GameObject breathAudios;
+    public AudioSource facingSaturnoAudio;
+    public AudioSource distanceSaturnoAudio;
+
+
+    [Header("Dead parameters")]
+    public GameObject saturno;
+    public float minDistanceDanger = 10;
+    public float recoverOnSafeZone = 4f;
+    public float recoverOutsideSazeZone = 2f;
+
 
     Vector3 movement;
     NavMeshAgent agent;
@@ -29,6 +39,16 @@ public class PlayerController : MonoBehaviour
     AudioSource[] breathList;
     float fadeInDuration;
 
+    // Camera parameters
+    Material cameraMaterial;
+
+    // Death parameters
+    SaturnoAI saturnoAI;
+    float deathTimer = 20f;
+    float currentDeathTimer = 0f;
+
+    float facingSaturnoAudioTimer = 20f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,6 +56,12 @@ public class PlayerController : MonoBehaviour
         stepsBaseVolume = stepsAudio.volume;
         stepsBasePitch = stepsAudio.pitch;
         breathList = breathAudios.GetComponents<AudioSource>();
+
+        cameraMaterial = GameObject.Find("Main Camera").GetComponent<PostProcessEffect>().material;
+        cameraMaterial.SetFloat("_DistortionFactor", 0);
+
+        saturnoAI = saturno.GetComponent<SaturnoAI>();
+        inSafeZone = true;
     }
 
     void Start()
@@ -53,7 +79,6 @@ public class PlayerController : MonoBehaviour
         if (fadeInDuration > 0)
         {
             fadeInDuration -= Time.deltaTime;
-            transform.rotation.Set(0, 0, 0, 1);
             return;
         }
 
@@ -81,6 +106,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudio);  // Steps audio walking
             }
+        }
+
+        if (UpdateDeathCondition())
+        {
+            LevelController.Death();
         }
     }
 
@@ -127,4 +157,66 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool UpdateDeathCondition()
+    {
+        Debug.Log(currentDeathTimer);
+
+        if (!saturnoAI) return false;
+
+        if (inSafeZone)
+        {
+            if (currentDeathTimer > 0) currentDeathTimer -= Time.deltaTime * recoverOnSafeZone;
+            if (distanceSaturnoAudio.isPlaying) distanceSaturnoAudio.Stop();
+
+        }
+        else
+        {
+
+            float playerToSaturnoDistance = saturnoAI.GetPlayerToSaturnoDistance();
+            bool seenByPlayer = saturnoAI.GetSeenByPlayer();
+
+            if (seenByPlayer && playerToSaturnoDistance < minDistanceDanger)
+            {
+                currentDeathTimer += Time.deltaTime;
+
+                if (facingSaturnoAudioTimer <= 0)
+                {
+                    facingSaturnoAudio.Play();
+                    facingSaturnoAudioTimer = 15f;
+                }
+
+
+
+            }
+            else if (playerToSaturnoDistance < minDistanceDanger)
+            {
+                if (currentDeathTimer <= 3)
+                {
+                    currentDeathTimer += Time.deltaTime;
+                }
+
+                if (!distanceSaturnoAudio.isPlaying) distanceSaturnoAudio.Play();
+
+            }
+            else
+            {
+                if (currentDeathTimer > 0) currentDeathTimer -= Time.deltaTime * recoverOutsideSazeZone;
+                if (distanceSaturnoAudio.isPlaying) distanceSaturnoAudio.Stop();
+            }
+        }
+
+        // Camera Material
+        cameraMaterial.SetFloat("_DarknessFactor", currentDeathTimer / deathTimer);
+        cameraMaterial.SetFloat("_DistortionFactor", currentDeathTimer / deathTimer);
+
+        // Timers
+        if (facingSaturnoAudioTimer > 0) facingSaturnoAudioTimer -= Time.deltaTime;
+
+        if (currentDeathTimer >= deathTimer)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

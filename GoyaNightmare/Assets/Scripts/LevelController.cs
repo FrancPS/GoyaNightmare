@@ -9,12 +9,13 @@ public class LevelController : MonoBehaviour
     public static LevelController levelController;
     public static uint objectsCollected = 0;
     public static uint currentLevel = 1;
+    public static bool canFinish = false;
 
     [Header("Obstacles Prefab")]
     public GameObject obstaclesParent;
     public NavMeshSurface[] surfaces;
 
-    AudioSource audio = null;
+    static Camera camera = null;
 
     // Functions
     private void Awake()
@@ -24,7 +25,7 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         levelController.ModifyLevel(currentLevel);
     }
 
@@ -35,11 +36,17 @@ public class LevelController : MonoBehaviour
         {
             currentLevel++;
             levelController.ModifyLevel(currentLevel);
-            if (levelController.audio) levelController.audio.Play();
+            AudioController.ChangeLevelMusic(currentLevel);
+            if (camera)
+            {
+                CameraShake cameraShake = camera.GetComponent<CameraShake>();
+                if (cameraShake) cameraShake.ShakeCamera();
+            }
         
         } else if (objectsCollected == 5)
         {
-            levelController.FinishLevel();
+            canFinish = true;
+            AudioController.ChangeLevelMusic(4);
         }
     }
 
@@ -85,8 +92,9 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    void FinishLevel()
+    public static void FinishLevel()
     {
+        AudioController.ChangeLevelMusic(5);
         Debug.Log("Game Finished!!!!!!!!");
     }
 }

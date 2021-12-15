@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
         if (other.name == "SafeRoom")
         {
             inSafeZone = true;
+            if (LevelController.canFinish) LevelController.FinishLevel();
         }
     }
 

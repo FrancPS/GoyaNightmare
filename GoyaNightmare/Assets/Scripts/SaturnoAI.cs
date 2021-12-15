@@ -20,6 +20,7 @@ public class SaturnoAI : MonoBehaviour
     bool seenByPlayer;
     bool leftPlayerSight;
     float playerFarAwayTimer = 0.0f;
+    float playerToSaturnoDistance;
 
     bool turnVisible;
 
@@ -74,6 +75,8 @@ public class SaturnoAI : MonoBehaviour
         // Modify speed accordingly
         RaycastHit hit;
         Vector3 playerToSaturno = transform.position - player.transform.position;
+        playerToSaturnoDistance = Vector3.Distance(transform.position, player.transform.position);
+
         if (Physics.Raycast(player.transform.position, playerToSaturno, out hit, Mathf.Infinity))
         {
             if (Vector3.Dot(playerToSaturno, player.transform.forward) > 0.0f && hit.collider.name == "Saturno")
@@ -144,6 +147,16 @@ public class SaturnoAI : MonoBehaviour
         {
             turnVisible = true;
         }
+    }
+
+    // Getters 
+    public bool GetSeenByPlayer() {
+        return seenByPlayer;
+    }
+
+    public float GetPlayerToSaturnoDistance()
+    {
+        return playerToSaturnoDistance;
     }
 
 }

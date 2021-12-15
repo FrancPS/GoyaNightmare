@@ -15,16 +15,23 @@ public class MouseLook : MonoBehaviour
 
     private Transform playerBody;
     private float xRotation = 0f;
+    private float fadeInDuration;
 
     void Start()
     {
         playerBody = this.transform.parent;
+        fadeInDuration = LevelController.fadeInDuration;
         Cursor.lockState = CursorLockMode.Locked; // Force the cursor to be always at the center of the screen and hide it
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (fadeInDuration > 0)
+        {
+            fadeInDuration -= Time.deltaTime;
+            return;
+        }
         // Get mouse input
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

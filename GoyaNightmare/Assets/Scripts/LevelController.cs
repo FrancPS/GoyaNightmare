@@ -15,7 +15,13 @@ public class LevelController : MonoBehaviour
     public GameObject obstaclesParent;
     public NavMeshSurface[] surfaces;
 
-    static Camera camera = null;
+    [Header("Level Properties")]
+    public static float fadeInDuration = 5;
+    public static float fadeOutDuration = 5;
+
+    static Camera camera;
+    Material cameraMaterial = null;
+    float currentFadeInDuration = 5;
 
     // Functions
     private void Awake()
@@ -25,8 +31,23 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
-        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        GameObject cameraGO = GameObject.Find("Main Camera");
+        camera = cameraGO.GetComponent<Camera>();
+        cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
+        cameraMaterial.SetFloat("_DarknessFactor", 1);
+
+        currentFadeInDuration = fadeInDuration;
+
         levelController.ModifyLevel(currentLevel);
+    }
+
+    void Update()
+    {
+        if (currentFadeInDuration > 0)
+        {
+            cameraMaterial.SetFloat("_DarknessFactor", currentFadeInDuration / fadeInDuration);
+            currentFadeInDuration -= Time.deltaTime;
+        }
     }
 
     static public void ChangeLevel()
@@ -42,8 +63,9 @@ public class LevelController : MonoBehaviour
                 CameraShake cameraShake = camera.GetComponent<CameraShake>();
                 if (cameraShake) cameraShake.ShakeCamera();
             }
-        
-        } else if (objectsCollected == 5)
+
+        }
+        else if (objectsCollected == 5)
         {
             canFinish = true;
             AudioController.ChangeLevelMusic(4);

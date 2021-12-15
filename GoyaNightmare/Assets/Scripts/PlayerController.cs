@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     float stepsBaseVolume;
     float stepsBasePitch;
     AudioSource[] breathList;
+    float fadeInDuration;
 
     // Start is called before the first frame update
     void Awake()
@@ -41,11 +42,21 @@ public class PlayerController : MonoBehaviour
     {
         agent.updateRotation = false;
         StartCoroutine(Breathing());
+
+        fadeInDuration = LevelController.fadeInDuration;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Block movement at Start
+        if (fadeInDuration > 0)
+        {
+            fadeInDuration -= Time.deltaTime;
+            transform.rotation.Set(0, 0, 0, 1);
+            return;
+        }
+
         // Get Input
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
@@ -78,6 +89,7 @@ public class PlayerController : MonoBehaviour
         audio.volume = stepsBaseVolume + Random.Range(-0.2f, 0.2f);
         audio.pitch = stepsBasePitch + Random.Range(-0.2f, 0.2f);
         audio.Play();
+        
     }
 
     void OnTriggerEnter(Collider other)

@@ -27838,38 +27838,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 680849849, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2940552422178894176}
-    - target: {fileID: 680849849, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Restart
-      objectReference: {fileID: 0}
-    - target: {fileID: 714800010, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 813630242, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 894253527, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1111037016, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2085830726, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2940552422178894176}
-    - target: {fileID: 2085830726, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ReturnToMenu
-      objectReference: {fileID: 0}
     - target: {fileID: 2940552421923721959, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -27978,21 +27946,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1111037016, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
   m_PrefabInstance: {fileID: 2940552422178894173}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2940552422178894176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2940552422178894175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef2e25ab99cf039468e49ce1f2d18ac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonClicked: {fileID: 0}
-  openMenu: {fileID: 0}
-  closeMenu: {fileID: 0}
 --- !u!1001 &3001441153743043778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28201,10 +28154,6 @@ PrefabInstance:
       propertyPath: saturno
       value: 
       objectReference: {fileID: 3042912298564877631}
-    - target: {fileID: 4048983032681675186, guid: be5c297513e57a9419975a57c98082c3, type: 3}
-      propertyPath: deathTimer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4048983032681675187, guid: be5c297513e57a9419975a57c98082c3, type: 3}
       propertyPath: m_Name
       value: Player

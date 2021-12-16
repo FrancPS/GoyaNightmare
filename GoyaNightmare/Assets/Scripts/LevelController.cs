@@ -14,14 +14,13 @@ public class LevelController : MonoBehaviour
     public static bool playerFinished = false;
 
     [Header("Level Properties")]
-    public static float fadeInDuration = 5;
-    public static float fadeOutDuration = 5;
+    public static float fadeInTimer = 5;
+    public static float fadeOutTimer = 5;
 
     [Header("Canvas Properties")]
     public GameObject victoryCanvas;
     public GameObject deathCanvas;
-    public static GameObject victory { get; private set; }
-    public static GameObject death { get; private set; }
+
 
     [Header("Obstacles Prefab")]
     public GameObject obstaclesParent;
@@ -31,12 +30,23 @@ public class LevelController : MonoBehaviour
     Material cameraMaterial = null;
     float currentFadeInDuration = 5;
 
+    public static GameObject canvasVictory { get; private set; }
+    public static GameObject canvasDeath { get; private set; }
+    public static float fadeInDuration { get; private set; }
+    public static float fadeOutDuration { get; private set; }
+
     // Functions
     private void Awake()
     {
         levelController = this;
         playerFinished = false;
         playerDead = false;
+
+        // Setting Static variables
+        canvasDeath = deathCanvas;
+        canvasVictory = victoryCanvas;
+        fadeInDuration = fadeInTimer;
+        fadeOutDuration = fadeOutTimer;
     }
 
     void Start()
@@ -52,8 +62,8 @@ public class LevelController : MonoBehaviour
 
         victoryCanvas.SetActive(false);
         deathCanvas.SetActive(false);
-        victory = victoryCanvas;
-        death = deathCanvas;
+        canvasVictory = victoryCanvas;
+        canvasDeath = deathCanvas;
 
     }
 
@@ -134,13 +144,13 @@ public class LevelController : MonoBehaviour
     {
         playerFinished = true;
         AudioController.ChangeLevelMusic(5);
-        victory.SetActive(true);
+        canvasVictory.SetActive(true);
     }
 
     public static void Death()
     {
         playerDead = true;
         AudioController.ChangeLevelMusic(6);
-        death.SetActive(true);
+        canvasDeath.SetActive(true);
     }
 }

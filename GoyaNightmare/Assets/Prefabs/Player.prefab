@@ -40,7 +40,7 @@ AudioSource:
   m_GameObject: {fileID: 1139375087}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9114447285550311882, guid: 9aa6864082bb0fd4cbb725de981a26e9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 2c9cfb2c9889844ac889f2ad14683d0e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0
@@ -623,16 +623,18 @@ MonoBehaviour:
   stepsAudioRun: {fileID: 4048983033960336752}
   breathAudios: {fileID: 4048983033848691665}
   facingSaturnoAudio: {fileID: 1946751597}
+  facingSaturnoAudioTimer: 20
   distanceSaturnoAudio: {fileID: 1139375089}
   saturno: {fileID: 0}
-  deathTimer: 20
-  minDistanceDanger: 30
+  deathTimer: 10
+  minDistanceContactDanger: 30
+  minDistanceAreaDanger: 20
   recoverOnSafeZone: 4
   recoverOutsideSazeZone: 2
   currentDeathTimer: 0
   playerToSaturnoDistance: 0
   seenByPlayer: 0
-  facingSaturnoAudioTimer: 20
+  remaningFacingSaturnoAudioTimer: 0
 --- !u!136 &4048983032681675192
 CapsuleCollider:
   m_ObjectHideFlags: 0

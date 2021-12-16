@@ -27,6 +27,12 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (LevelController.playerDead || LevelController.playerFinished)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            return;
+        }
         if (fadeInDuration > 0)
         {
             fadeInDuration -= Time.deltaTime;

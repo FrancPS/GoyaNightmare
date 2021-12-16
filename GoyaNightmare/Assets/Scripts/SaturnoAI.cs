@@ -135,7 +135,7 @@ public class SaturnoAI : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name.Contains("Obstacle"))
+        if (other.name.Contains("DoubleAngleWall"))
         {
             GetComponent<MeshRenderer>().enabled = false;
         }
@@ -143,13 +143,13 @@ public class SaturnoAI : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.name.Contains("Obstacle"))
+        if (other.name.Contains("DoubleAngleWall"))
         {
             turnVisible = true;
         }
     }
 
-    // Getters 
+    // Getters
     public bool GetSeenByPlayer() {
         return seenByPlayer;
     }

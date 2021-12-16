@@ -80,6 +80,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (LevelController.playerDead) return;
+        if (LevelController.playerFinished) return;
+
         // Block movement at Start
         if (fadeInDuration > 0)
         {
@@ -124,7 +127,7 @@ public class PlayerController : MonoBehaviour
         audio.volume = stepsBaseVolume + Random.Range(-0.2f, 0.2f);
         audio.pitch = stepsBasePitch + Random.Range(-0.2f, 0.2f);
         audio.Play();
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -198,7 +201,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
+
         if (currentDeathTimer < 0) currentDeathTimer = 0;
         float deathPercentage = currentDeathTimer / deathTimer;
 

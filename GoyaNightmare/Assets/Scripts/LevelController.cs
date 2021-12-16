@@ -10,14 +10,22 @@ public class LevelController : MonoBehaviour
     public static uint objectsCollected = 0;
     public static uint currentLevel = 1;
     public static bool canFinish = false;
-
-    [Header("Obstacles Prefab")]
-    public GameObject obstaclesParent;
-    public NavMeshSurface[] surfaces;
+    public static bool playerDead = false;
+    public static bool playerFinished = false;
 
     [Header("Level Properties")]
     public static float fadeInDuration = 5;
     public static float fadeOutDuration = 5;
+
+    [Header("Canvas Properties")]
+    public GameObject victoryCanvas;
+    public GameObject deathCanvas;
+    public static GameObject victory { get; private set; }
+    public static GameObject death { get; private set; }
+
+    [Header("Obstacles Prefab")]
+    public GameObject obstaclesParent;
+    public NavMeshSurface[] surfaces;
 
     static Camera camera;
     Material cameraMaterial = null;
@@ -27,6 +35,8 @@ public class LevelController : MonoBehaviour
     private void Awake()
     {
         levelController = this;
+        playerFinished = false;
+        playerDead = false;
     }
 
     void Start()
@@ -39,6 +49,12 @@ public class LevelController : MonoBehaviour
         currentFadeInDuration = fadeInDuration;
 
         levelController.ModifyLevel(currentLevel);
+
+        victoryCanvas.SetActive(false);
+        deathCanvas.SetActive(false);
+        victory = victoryCanvas;
+        death = deathCanvas;
+
     }
 
     void Update()
@@ -116,12 +132,15 @@ public class LevelController : MonoBehaviour
 
     public static void FinishLevel()
     {
+        playerFinished = true;
         AudioController.ChangeLevelMusic(5);
-        Debug.Log("Game Finished!!!!!!!!");
+        victory.SetActive(true);
     }
 
     public static void Death()
     {
-        Debug.Log("You're death!!!!!!!!");
+        playerDead = true;
+        AudioController.ChangeLevelMusic(6);
+        death.SetActive(true);
     }
 }

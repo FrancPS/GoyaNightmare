@@ -14,13 +14,16 @@ public class AudioController : MonoBehaviour
     public static AudioSource[] audios = null;
     public static AudioSource[] sfx = null;
 
+    static uint currentLevel = 1;
+
     enum Music
     {
         START,
         LVL2,
         LVL3,
         LVL4,
-        FINAL_MUSIC
+        FINAL_MUSIC,
+        DEATH_MUSIC
     }
 
     enum SFX
@@ -54,12 +57,19 @@ public class AudioController : MonoBehaviour
         {
             audioController.StartCoroutine(AudioTransition(audios[level - 2], audios[level - 1], 1.0f));
         }
-        else
+        else if (level == 5)
         {
             audios[(int)Music.LVL4].Stop();
             sfx[(int)SFX.AMBIENT].Stop();
             audios[(int)Music.FINAL_MUSIC].Play();
         }
+        else
+        {
+            audios[currentLevel - 1].Stop();
+            audios[(int)Music.DEATH_MUSIC].Play();
+        }
+
+        currentLevel = level;
     }
 
     public static IEnumerator AudioTransition(AudioSource audioSource, AudioSource nextAudioSource, float fadeTime)

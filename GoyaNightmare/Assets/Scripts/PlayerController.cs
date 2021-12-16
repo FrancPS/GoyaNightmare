@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour
         fadeInDuration = LevelController.fadeInDuration;
 
         mainCamera.GetComponent<MouseLook>().ActivateMouseLook(true);
-        LevelController.canFinish = true;//Remove this
     }
 
     // Update is called once per frame

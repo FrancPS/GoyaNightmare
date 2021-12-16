@@ -137,7 +137,7 @@ public class SaturnoAI : MonoBehaviour
     {
         if (other.name.Contains("DoubleAngleWall"))
         {
-            GetComponent<MeshRenderer>().enabled = false;
+            if (other.gameObject.activeSelf) GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
@@ -145,7 +145,7 @@ public class SaturnoAI : MonoBehaviour
     {
         if (other.name.Contains("DoubleAngleWall"))
         {
-            turnVisible = true;
+            if (other.gameObject.activeSelf) turnVisible = true;
         }
     }
 

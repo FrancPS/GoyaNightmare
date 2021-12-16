@@ -23,13 +23,14 @@ public class PlayerController : MonoBehaviour
     public AudioSource distanceSaturnoAudio;
 
 
-    [Header("Dead parameters")]
+    [Header("Death parameters")]
     public GameObject saturno;
     public float deathTimer = 20f;
     public float minDistanceContactDanger = 30;
     public float minDistanceAreaDanger = 20;
     public float recoverOnSafeZone = 4f;
     public float recoverOutsideSazeZone = 2f;
+    public float victoryRotationTimer;
 
     [Header("Read-only")]
     public float currentDeathTimer = 0f;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
     NavMeshAgent agent;
     bool moving;
     bool sprinting;
+    bool victorySequence;
 
     float stepsBaseVolume;
     float stepsBasePitch;
@@ -49,7 +51,10 @@ public class PlayerController : MonoBehaviour
     float fadeInDuration;
 
     // Camera parameters
+    GameObject mainCamera;
     Material cameraMaterial;
+    float currentVictoryRotationTime;
+    Vector3 victoryDirection;
 
     // Death parameters
     SaturnoAI saturnoAI;
@@ -62,7 +67,8 @@ public class PlayerController : MonoBehaviour
         stepsBasePitch = stepsAudio.pitch;
         breathList = breathAudios.GetComponents<AudioSource>();
 
-        cameraMaterial = GameObject.Find("Main Camera").GetComponent<PostProcessEffect>().material;
+        mainCamera = GameObject.Find("Main Camera");
+        cameraMaterial = mainCamera.GetComponent<PostProcessEffect>().material;
         cameraMaterial.SetFloat("_DistortionFactor", 0);
 
         saturnoAI = saturno.GetComponent<SaturnoAI>();
@@ -80,8 +86,25 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelController.playerDead) return;
-        if (LevelController.playerFinished) return;
+        if (LevelController.playerDead || LevelController.playerFinished) return;
+        if (victorySequence)
+        {
+            if (transform.position.Equals(new Vector3(0, 1, 0)))
+            {
+                if (mainCamera.transform.forward.Equals(new Vector3(0, 0, 1)))
+                {
+                    LevelController.FinishLevel();
+                    victorySequence = false;
+                }
+                else
+                {
+                    currentVictoryRotationTime += Time.deltaTime;
+                    Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);
+                    mainCamera.transform.LookAt(mainCamera.transform.position + lookAtDirection);
+                }
+            }
+            return;
+        }
 
         // Block movement at Start
         if (fadeInDuration > 0)
@@ -135,7 +158,14 @@ public class PlayerController : MonoBehaviour
         if (other.name == "SafeRoom")
         {
             inSafeZone = true;
-            if (LevelController.canFinish) LevelController.FinishLevel();
+            if (LevelController.canFinish)
+            {
+                agent.speed = agent.speed / 2.0f;
+                Vector3 origin = new Vector3(0, 1, 0);
+                agent.SetDestination(origin);
+                victoryDirection = mainCamera.transform.forward;
+                victorySequence = true;
+            }
         }
     }
 

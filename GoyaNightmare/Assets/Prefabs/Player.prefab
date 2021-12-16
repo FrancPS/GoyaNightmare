@@ -631,6 +631,7 @@ MonoBehaviour:
   minDistanceAreaDanger: 20
   recoverOnSafeZone: 4
   recoverOutsideSazeZone: 2
+  victoryRotationTimer: 5
   currentDeathTimer: 0
   playerToSaturnoDistance: 0
   seenByPlayer: 0

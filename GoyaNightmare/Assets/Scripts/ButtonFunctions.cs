@@ -9,7 +9,14 @@ public class ButtonFunctions : MonoBehaviour
     public AudioSource openMenu;
     public AudioSource closeMenu;
 
+    public Animator animator;
+
     public void Play()
+    {
+        animator.SetTrigger("FadeOut");
+    }
+
+    void OnFadeComplete()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }

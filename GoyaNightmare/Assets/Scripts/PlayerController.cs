@@ -81,6 +81,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(Breathing());
 
         fadeInDuration = LevelController.fadeInDuration;
+
+        mainCamera.GetComponent<MouseLook>().ActivateMouseLook(true);
+        LevelController.canFinish = true;//Remove this
     }
 
     // Update is called once per frame
@@ -89,19 +92,16 @@ public class PlayerController : MonoBehaviour
         if (LevelController.playerDead || LevelController.playerFinished) return;
         if (victorySequence)
         {
-            if (transform.position.Equals(new Vector3(0, 1, 0)))
+            
+            mainCamera.GetComponent<MouseLook>().ActivateMouseLook(false);
+            currentVictoryRotationTime += Time.deltaTime;
+            Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);
+            mainCamera.transform.LookAt(mainCamera.transform.position + lookAtDirection);
+
+            if (currentVictoryRotationTime >= victoryRotationTimer +1)
             {
-                if (mainCamera.transform.forward.Equals(new Vector3(0, 0, 1)))
-                {
-                    LevelController.FinishLevel();
-                    victorySequence = false;
-                }
-                else
-                {
-                    currentVictoryRotationTime += Time.deltaTime;
-                    Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);
-                    mainCamera.transform.LookAt(mainCamera.transform.position + lookAtDirection);
-                }
+                LevelController.FinishLevel();
+                victorySequence = false;
             }
             return;
         }
@@ -164,6 +164,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 origin = new Vector3(0, 1, 0);
                 agent.SetDestination(origin);
                 victoryDirection = mainCamera.transform.forward;
+                currentVictoryRotationTime = 0f;
                 victorySequence = true;
             }
         }

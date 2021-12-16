@@ -142,6 +142,7 @@ public class LevelController : MonoBehaviour
 
     public static void FinishLevel()
     {
+        camera.GetComponent<MouseLook>().ActivateCursor(true);
         playerFinished = true;
         AudioController.ChangeLevelMusic(5);
         canvasVictory.SetActive(true);
@@ -149,6 +150,8 @@ public class LevelController : MonoBehaviour
 
     public static void Death()
     {
+        camera.GetComponent<MouseLook>().ActivateMouseLook(false);
+        camera.GetComponent<MouseLook>().ActivateCursor(true);
         playerDead = true;
         AudioController.ChangeLevelMusic(6);
         canvasDeath.SetActive(true);

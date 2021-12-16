@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Painting : MonoBehaviour
 {
@@ -11,12 +12,13 @@ public class Painting : MonoBehaviour
 
     void Start()
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        Material[] materialsArray = new Material[2];
-        meshRenderer.materials.CopyTo(materialsArray, 0);
-        materialsArray[1] = emptyMaterial;
-        meshRenderer.materials = materialsArray;
-
+        if (SceneManager.GetActiveScene().buildIndex != 0) {
+            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+            Material[] materialsArray = new Material[2];
+            meshRenderer.materials.CopyTo(materialsArray, 0);
+            materialsArray[1] = emptyMaterial;
+            meshRenderer.materials = materialsArray;
+        }
     }
 
     public void ChangeMaterial()

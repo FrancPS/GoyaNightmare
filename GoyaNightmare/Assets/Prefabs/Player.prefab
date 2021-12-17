@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 2.3
-  sprintStaminaCost: 0.025
+  sprintStaminaCost: 0.04
   inSafeZone: 0
   stepsAudio: {fileID: 4048983034171087514}
   stepsAudioRun: {fileID: 4048983033960336752}

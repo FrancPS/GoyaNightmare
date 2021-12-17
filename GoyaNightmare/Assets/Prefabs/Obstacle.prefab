@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6166998523888269193}
   - component: {fileID: 6166998523888269192}
+  - component: {fileID: 2875837601588010101}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Untagged
@@ -45,6 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleLevels: 0000000000000000
+--- !u!65 &2875837601588010101
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6166998523888269238}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1832351038809235315
 PrefabInstance:
   m_ObjectHideFlags: 0

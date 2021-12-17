@@ -26,7 +26,7 @@ public class LevelController : MonoBehaviour
     public GameObject obstaclesParent;
     public NavMeshSurface[] surfaces;
 
-    static Camera camera;
+    static Camera gameCamera;
     Material cameraMaterial = null;
     float currentFadeInDuration = 5;
 
@@ -52,7 +52,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         GameObject cameraGO = GameObject.Find("Main Camera");
-        camera = cameraGO.GetComponent<Camera>();
+        gameCamera = cameraGO.GetComponent<Camera>();
         cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
         cameraMaterial.SetFloat("_DarknessFactor", 1);
 
@@ -84,9 +84,9 @@ public class LevelController : MonoBehaviour
             currentLevel++;
             levelController.ModifyLevel(currentLevel);
             AudioController.ChangeLevelMusic(currentLevel);
-            if (camera)
+            if (gameCamera)
             {
-                CameraShake cameraShake = camera.GetComponent<CameraShake>();
+                CameraShake cameraShake = gameCamera.GetComponent<CameraShake>();
                 if (cameraShake) cameraShake.ShakeCamera();
             }
 
@@ -142,7 +142,7 @@ public class LevelController : MonoBehaviour
 
     public static void FinishLevel()
     {
-        camera.GetComponent<MouseLook>().ActivateCursor(true);
+        gameCamera.GetComponent<MouseLook>().ActivateCursor(true);
         playerFinished = true;
         AudioController.ChangeLevelMusic(5);
         canvasVictory.SetActive(true);
@@ -150,8 +150,8 @@ public class LevelController : MonoBehaviour
 
     public static void Death()
     {
-        camera.GetComponent<MouseLook>().ActivateMouseLook(false);
-        camera.GetComponent<MouseLook>().ActivateCursor(true);
+        gameCamera.GetComponent<MouseLook>().ActivateMouseLook(false);
+        gameCamera.GetComponent<MouseLook>().ActivateCursor(true);
         playerDead = true;
         AudioController.ChangeLevelMusic(6);
         canvasDeath.SetActive(true);

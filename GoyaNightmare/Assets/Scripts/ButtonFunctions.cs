@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ButtonFunctions : MonoBehaviour
 {
-    public AudioSource buttonClicked;
-    public AudioSource openMenu;
-    public AudioSource closeMenu;
 
     public Animator animator;
 
@@ -42,20 +39,5 @@ public class ButtonFunctions : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); // Only applicable because we only have 1 game scene
         PauseGame(false);
-    }
-
-    public void PlayButtonClickedAudio()
-    {
-        buttonClicked.Play();
-    }
-
-    public void PlayOpenMenuAudio()
-    {
-        openMenu.Play();
-    }
-
-    public void PlayCloseMenuAudio()
-    {
-        closeMenu.Play();
     }
 }

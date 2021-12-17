@@ -24,21 +24,21 @@ public class Collectable : MonoBehaviour
 
     // Private Variables
     uint id = 0;
-    string name = "";
+    string itemName = "";
     bool isCollected = false;
     bool isCollectable = false;
 
 
     MeshRenderer meshRenderer = null;
-    Camera camera = null;
-    ParticleSystem particleSystem = null;
+    Camera gameCamera = null;
+    ParticleSystem collectedParticles = null;
     AudioSource audioSource = null;
 
     // Constructor
     Collectable( uint _id, string _name)
     {
         id = _id;
-        name = _name;
+        itemName = _name;
     }
 
     // Getters
@@ -48,7 +48,7 @@ public class Collectable : MonoBehaviour
     }
     public string GetName()
     {
-        return name;
+        return itemName;
     }
     public bool GetIsCollectable()
     {
@@ -62,7 +62,7 @@ public class Collectable : MonoBehaviour
     }
     public void SetName(string _name)
     {
-        name = _name;
+        itemName = _name;
     }
     public void SetIsCollectable(bool _isCollectable)
     {
@@ -73,8 +73,8 @@ public class Collectable : MonoBehaviour
     void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        camera = cameraGO.GetComponent<Camera>();
-        particleSystem = GetComponent<ParticleSystem>();
+        gameCamera = cameraGO.GetComponent<Camera>();
+        collectedParticles = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -96,7 +96,7 @@ public class Collectable : MonoBehaviour
             if (paintingScript) paintingScript.ChangeMaterial();
         }
 
-        if (particleSystem) particleSystem.Play();
+        if (collectedParticles) collectedParticles.Play();
         if (audioSource) audioSource.Play();
         if (collectableHUD) collectableHUD.SetActive(false);
 
@@ -141,10 +141,10 @@ public class Collectable : MonoBehaviour
 
     bool IsCameraLooking()
     {
-        if (!camera) return false;
+        if (!gameCamera) return false;
 
-        Vector3 cameraDirection = camera.transform.forward;
-        Vector3 objectDirection = Vector3.Normalize(transform.position - camera.transform.position);
+        Vector3 cameraDirection = gameCamera.transform.forward;
+        Vector3 objectDirection = Vector3.Normalize(transform.position - gameCamera.transform.position);
         float angle = Vector3.Dot(cameraDirection, objectDirection);
 
         float temp = Mathf.Deg2Rad * visionAngle;

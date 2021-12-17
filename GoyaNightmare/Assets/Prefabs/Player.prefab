@@ -627,8 +627,8 @@ MonoBehaviour:
   distanceSaturnoAudio: {fileID: 1139375089}
   saturno: {fileID: 0}
   deathTimer: 10
-  minDistanceContactDanger: 30
-  minDistanceAreaDanger: 20
+  minDistanceContactDanger: 15
+  minDistanceAreaDanger: 7.5
   recoverOnSafeZone: 4
   recoverOutsideSazeZone: 2
   victoryRotationTimer: 5

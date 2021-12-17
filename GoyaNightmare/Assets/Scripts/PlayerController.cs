@@ -91,7 +91,8 @@ public class PlayerController : MonoBehaviour
         if (LevelController.playerDead || LevelController.playerFinished) return;
         if (victorySequence)
         {
-            
+            cameraMaterial.SetFloat("_DistortionFactor", 0);
+            cameraMaterial.SetFloat("_DarknessFactor", 0);
             mainCamera.GetComponent<MouseLook>().ActivateMouseLook(false);
             currentVictoryRotationTime += Time.deltaTime;
             Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);

@@ -24,13 +24,14 @@ public class MouseLook : MonoBehaviour
         playerBody = this.transform.parent;
         fadeInDuration = LevelController.fadeInDuration;
         
-        canLook = false;
+        canLook = true;
         ActivateCursor(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(canLook);
         if (canLook)
         {
             if (fadeInDuration > 0)
@@ -38,6 +39,7 @@ public class MouseLook : MonoBehaviour
                 fadeInDuration -= Time.deltaTime;
                 return;
             }
+
             // Get mouse input
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     bool moving;
     bool sprinting;
     bool victorySequence;
+    IEnumerator breathingCoroutine;
 
     float stepsBaseVolume;
     float stepsBasePitch;
@@ -78,19 +79,20 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         agent.updateRotation = false;
-        StartCoroutine(Breathing());
+        breathingCoroutine = Breathing();
+        StartCoroutine(breathingCoroutine);
 
         fadeInDuration = LevelController.fadeInDuration;
-
-        mainCamera.GetComponent<MouseLook>().ActivateMouseLook(true);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (LevelController.playerDead || LevelController.playerFinished) return;
+
         if (victorySequence)
         {
+            distanceSaturnoAudio.volume = 0.0f;
             cameraMaterial.SetFloat("_DistortionFactor", 0);
             cameraMaterial.SetFloat("_DarknessFactor", 0);
             mainCamera.GetComponent<MouseLook>().ActivateMouseLook(false);
@@ -141,7 +143,9 @@ public class PlayerController : MonoBehaviour
 
         if (UpdateDeathCondition())
         {
-            LevelController.Death();
+            StopCoroutine(breathingCoroutine);
+            distanceSaturnoAudio.volume = 0.0f;
+            LevelController.Death(); 
         }
     }
 
@@ -180,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Breathing()
     {
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         while (true)
         {
             int index = Random.Range(0, breathList.Length - 1);

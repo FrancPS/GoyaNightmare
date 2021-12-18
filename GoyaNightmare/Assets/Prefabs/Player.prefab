@@ -299,7 +299,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.9339623, g: 0.8205187, b: 0.6123621, a: 1}
   m_Intensity: 3
-  m_Range: 15
+  m_Range: 20
   m_SpotAngle: 75
   m_InnerSpotAngle: 7
   m_CookieSize: 10
@@ -360,10 +360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 902e95e7b0b882044a76b9ce6605c327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxReduction: 3
-  maxIncrease: 3
+  maxReduction: 2
+  maxIncrease: 2
   rateDamping: 0.05
-  strength: 100
+  strength: 50
+  lanternTutorialText: {fileID: 0}
   audioOpen: {fileID: 4048983032791793012}
   audioClose: {fileID: 4048983032763333161}
 --- !u!1 &4048983032416056932
@@ -592,7 +593,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2.7
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -619,6 +620,8 @@ MonoBehaviour:
   speedMultiplier: 2.3
   sprintStaminaCost: 0.04
   inSafeZone: 0
+  lanternTutorialText: {fileID: 0}
+  sprintTutorialText: {fileID: 0}
   stepsAudio: {fileID: 4048983034171087514}
   stepsAudioRun: {fileID: 4048983033960336752}
   breathAudios: {fileID: 4048983033848691665}
@@ -627,11 +630,13 @@ MonoBehaviour:
   distanceSaturnoAudio: {fileID: 1139375089}
   saturno: {fileID: 0}
   deathTimer: 10
-  minDistanceContactDanger: 20
-  minDistanceAreaDanger: 10
+  minDistanceContactDanger: 29
+  minDistanceAreaDanger: 17
+  areaDangerTimerFrac: 0.3
   recoverOnSafeZone: 4
   recoverOutsideSazeZone: 2
   victoryRotationTimer: 5
+  darknessExpFactor: 3
   currentDeathTimer: 0
   playerToSaturnoDistance: 0
   seenByPlayer: 0

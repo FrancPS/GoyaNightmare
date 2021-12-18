@@ -7,11 +7,11 @@ public class LevelController : MonoBehaviour
 {
     // Variables
     public static LevelController levelController;
-    public static uint objectsCollected = 0;
-    public static uint currentLevel = 1;
-    public static bool canFinish = false;
-    public static bool playerDead = false;
-    public static bool playerFinished = false;
+    public static uint objectsCollected;
+    public static uint currentLevel;
+    public static bool canFinish;
+    public static bool playerDead;
+    public static bool playerFinished;
 
     [Header("Level Properties")]
     public static float fadeInTimer = 5;
@@ -39,6 +39,10 @@ public class LevelController : MonoBehaviour
     private void Awake()
     {
         levelController = this;
+
+        objectsCollected = 0;
+        currentLevel = 1;
+        canFinish = false;
         playerFinished = false;
         playerDead = false;
 

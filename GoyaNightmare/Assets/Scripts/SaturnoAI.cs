@@ -11,6 +11,7 @@ public class SaturnoAI : MonoBehaviour
     public Transform[] spawnPoints;
     public float teleportTriggeringDistance;
     public float teleportTriggeringTime;
+    public Animator animator;
 
     Vector3 destination;
     NavMeshAgent agent;
@@ -53,16 +54,20 @@ public class SaturnoAI : MonoBehaviour
         }
         else
         {
+            UpdateSpeed();
             if (!lantern.enabled)
             {
                 agent.isStopped = true;
+                animator.ResetTrigger("ResumeWalk");
+                animator.SetTrigger("Stop");
             }
             else
             {
-                UpdateSpeed();
                 ShouldTeleportSaturno();
                 // Update position
                 agent.isStopped = false;
+                animator.ResetTrigger("Stop");
+                animator.SetTrigger("ResumeWalk");
                 destination = player.GetComponent<NavMeshAgent>().steeringTarget;
                 agent.SetDestination(destination);
             }
@@ -135,17 +140,17 @@ public class SaturnoAI : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name.Contains("DoubleAngleWall"))
+        if (other.name.Contains("Obstacle"))
         {
-            if (other.gameObject.activeSelf) GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.name.Contains("DoubleAngleWall"))
+        if (other.name.Contains("Obstacle"))
         {
-            if (other.gameObject.activeSelf) turnVisible = true;
+            turnVisible = true;
         }
     }
 

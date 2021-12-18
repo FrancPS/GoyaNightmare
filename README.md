@@ -6,7 +6,7 @@ In his darkest era, Federico de Goya enclosed himself at home and painted macabr
 
 The game is about exploring a nightmarish house, supposedly Goya’s home, where you will find his art scattered around on the walls. The goal is to find and recover these five pieces of art without being trapped by Saturno, a soul-eating monster that will chase you around the house.
 
-The sensation of being trapped in a laberynth will never disappear, as the walls and hallways will move around while you collect the art and the layout of the house will be different every time.
+The sensation of being trapped in a laberynth will never disappear, as the walls and hallways will move around while you collect the art. The layout of the house will be different every time.
 
 The only room that will not be affected by these changes is the central hub. Your starting point and safe area. Here will be displayed the empty paintings that you need to find, and they will be filled with the corresponding art pieces when you recover them. There is no HUD in the game so this will be your only option to keep track of your progress.
 

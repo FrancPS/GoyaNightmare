@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float sprintStaminaCost;
     public bool inSafeZone = false;
     public GameObject lanternTutorialText;
+    public GameObject sprintTutorialText;
 
     [Header("Audios")]
     public AudioSource stepsAudio;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
     float stepsBasePitch;
     AudioSource[] breathList;
     float fadeInDuration;
+    float sprintTutorialTimer = 0f;
 
     // Camera parameters
     GameObject mainCamera;
@@ -131,6 +133,20 @@ public class PlayerController : MonoBehaviour
         moving = horizontalInput != 0 || verticalInput != 0;
         sprinting = Input.GetButton("Sprint") && StaminaBar.instance.HasStamina();
 
+        // SprintTutorial
+        if (!firstTimeExit)
+        {
+            if (sprinting || sprintTutorialTimer >= 10.0f)
+            {
+                sprintTutorialText.SetActive(false);
+            }
+            else
+            {
+                sprintTutorialTimer += Time.deltaTime;
+            }
+        }
+
+        // Movement
         if (moving)
         {
             // Set input to local coordinates
@@ -193,6 +209,7 @@ public class PlayerController : MonoBehaviour
             if (firstTimeExit)
             {
                 lanternTutorialText.SetActive(false);
+                sprintTutorialText.SetActive(true);
                 firstTimeExit = false;
             }
         }

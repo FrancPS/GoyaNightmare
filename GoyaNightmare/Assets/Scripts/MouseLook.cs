@@ -31,7 +31,6 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(canLook);
         if (canLook)
         {
             if (fadeInDuration > 0)

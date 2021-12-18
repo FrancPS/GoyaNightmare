@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float speedMultiplier;
     public float sprintStaminaCost;
     public bool inSafeZone = false;
+    public GameObject lanternTutorialText;
 
     [Header("Audios")]
     public AudioSource stepsAudio;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3 movement;
     NavMeshAgent agent;
+    bool firstTimeExit;
     bool moving;
     bool sprinting;
     bool victorySequence;
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
         saturnoAI = saturno.GetComponent<SaturnoAI>();
         inSafeZone = true;
+        firstTimeExit = true;
     }
 
     void Start()
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(breathingCoroutine);
 
         fadeInDuration = LevelController.fadeInDuration;
+        lanternTutorialText.SetActive(true);
     }
 
     // Update is called once per frame
@@ -179,6 +183,12 @@ public class PlayerController : MonoBehaviour
         if (other.name == "SafeRoom")
         {
             inSafeZone = false;
+            // Toggle Lantern tutorial
+            if (firstTimeExit)
+            {
+                lanternTutorialText.SetActive(false);
+                firstTimeExit = false;
+            }
         }
     }
 

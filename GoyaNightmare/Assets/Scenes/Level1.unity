@@ -22527,6 +22527,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44751cdbc19fbf4a938488ec069ba94, type: 3}
+--- !u!1 &1069546858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2760880325534252448, guid: 5d34227d4ad11e04385ec66dca57dc0f, type: 3}
+  m_PrefabInstance: {fileID: 363996917}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1069588857
 GameObject:
   m_ObjectHideFlags: 0
@@ -69108,6 +69113,10 @@ PrefabInstance:
       propertyPath: maxReduction
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4048983032343469434, guid: be5c297513e57a9419975a57c98082c3, type: 3}
+      propertyPath: lanternTutorialText
+      value: 
+      objectReference: {fileID: 1069546858}
     - target: {fileID: 4048983032343469435, guid: be5c297513e57a9419975a57c98082c3, type: 3}
       propertyPath: m_Range
       value: 20
@@ -69116,6 +69125,10 @@ PrefabInstance:
       propertyPath: saturno
       value: 
       objectReference: {fileID: 3042912298564877631}
+    - target: {fileID: 4048983032681675186, guid: be5c297513e57a9419975a57c98082c3, type: 3}
+      propertyPath: lanternTutorialText
+      value: 
+      objectReference: {fileID: 1069546858}
     - target: {fileID: 4048983032681675187, guid: be5c297513e57a9419975a57c98082c3, type: 3}
       propertyPath: m_Name
       value: Player

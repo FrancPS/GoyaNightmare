@@ -42,7 +42,7 @@ public class LevelController : MonoBehaviour
 
         objectsCollected = 0;
         currentLevel = 1;
-        canFinish = false;
+        canFinish = true;
         playerFinished = false;
         playerDead = false;
 

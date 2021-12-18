@@ -11,11 +11,13 @@ public class SaturnoAI : MonoBehaviour
     public Transform[] spawnPoints;
     public float teleportTriggeringDistance;
     public float teleportTriggeringTime;
+    public float speedIncrease;
+    public float speedReduction;
     public Animator animator;
 
     Vector3 destination;
     NavMeshAgent agent;
-    float saturnoMaxSpeed;
+    public float saturnoMaxSpeed;
 
     // Teleport
     bool seenByPlayer;
@@ -24,6 +26,8 @@ public class SaturnoAI : MonoBehaviour
     float playerToSaturnoDistance;
 
     bool turnVisible;
+
+    Component[] meshRenderers;
 
     void Awake()
     {
@@ -34,7 +38,7 @@ public class SaturnoAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        meshRenderers = GetComponentsInChildren(typeof(SkinnedMeshRenderer));
     }
 
     // Update is called once per frame
@@ -43,7 +47,10 @@ public class SaturnoAI : MonoBehaviour
         Vector3 playerToSaturno = transform.position - player.transform.position;
         if (turnVisible && Vector3.Dot(playerToSaturno, player.transform.forward) < 0.0f)
         {
-            GetComponent<MeshRenderer>().enabled = true;
+            foreach (SkinnedMeshRenderer m in meshRenderers)
+            {
+                m.enabled = true;
+            }
             turnVisible = false;
         }
 
@@ -76,6 +83,7 @@ public class SaturnoAI : MonoBehaviour
 
     void UpdateSpeed()
     {
+        saturnoMaxSpeed = speedIncrease * LevelController.objectsCollected + 2.7f;
         // Is player seeing Saturno?
         // Modify speed accordingly
         RaycastHit hit;
@@ -86,7 +94,7 @@ public class SaturnoAI : MonoBehaviour
         {
             if (Vector3.Dot(playerToSaturno, player.transform.forward) > 0.0f && hit.collider.name == "Saturno")
             {
-                agent.speed = saturnoMaxSpeed / 2.0f;
+                agent.speed = saturnoMaxSpeed * (1 - speedReduction);
                 seenByPlayer = true;
                 leftPlayerSight = false;
             }
@@ -142,7 +150,10 @@ public class SaturnoAI : MonoBehaviour
     {
         if (other.name.Contains("Obstacle"))
         {
-            GetComponent<MeshRenderer>().enabled = false;
+            foreach (SkinnedMeshRenderer m in meshRenderers)
+            {
+                m.enabled = false;
+            }
         }
     }
 

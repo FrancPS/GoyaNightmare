@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float speedMultiplier;
     public float sprintStaminaCost;
     public bool inSafeZone = false;
+    public GameObject lanternTutorialText;
 
     [Header("Audios")]
     public AudioSource stepsAudio;
@@ -25,12 +26,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Death parameters")]
     public GameObject saturno;
-    public float deathTimer = 20f;
+    public float deathTimer = 10f;
     public float minDistanceContactDanger = 30;
     public float minDistanceAreaDanger = 20;
+    public float areaDangerTimerFrac = 0.3f;
     public float recoverOnSafeZone = 4f;
     public float recoverOutsideSazeZone = 2f;
     public float victoryRotationTimer;
+
+    [Header("Distortion parameters")]
+    public float darknessExpFactor = 3f;
 
     [Header("Read-only")]
     public float currentDeathTimer = 0f;
@@ -41,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3 movement;
     NavMeshAgent agent;
+    bool firstTimeExit;
     bool moving;
     bool sprinting;
     bool victorySequence;
@@ -74,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
         saturnoAI = saturno.GetComponent<SaturnoAI>();
         inSafeZone = true;
+        firstTimeExit = true;
     }
 
     void Start()
@@ -100,7 +107,7 @@ public class PlayerController : MonoBehaviour
             Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);
             mainCamera.transform.LookAt(mainCamera.transform.position + lookAtDirection);
 
-            if (currentVictoryRotationTime >= victoryRotationTimer +1)
+            if (currentVictoryRotationTime >= victoryRotationTimer + 1)
             {
                 LevelController.FinishLevel();
                 victorySequence = false;
@@ -112,6 +119,8 @@ public class PlayerController : MonoBehaviour
         if (fadeInDuration > 0)
         {
             fadeInDuration -= Time.deltaTime;
+            if (fadeInDuration <= 0) lanternTutorialText.SetActive(true);
+
             return;
         }
 
@@ -145,7 +154,7 @@ public class PlayerController : MonoBehaviour
         {
             StopCoroutine(breathingCoroutine);
             distanceSaturnoAudio.volume = 0.0f;
-            LevelController.Death(); 
+            LevelController.Death();
         }
     }
 
@@ -179,6 +188,13 @@ public class PlayerController : MonoBehaviour
         if (other.name == "SafeRoom")
         {
             inSafeZone = false;
+
+            // Toggle Lantern tutorial
+            if (firstTimeExit)
+            {
+                lanternTutorialText.SetActive(false);
+                firstTimeExit = false;
+            }
         }
     }
 
@@ -191,7 +207,8 @@ public class PlayerController : MonoBehaviour
             if (sprinting)
             {
                 breathList[index].volume = 0.01f;
-            } else
+            }
+            else
             {
                 breathList[index].volume = 0.002f;
             }
@@ -225,7 +242,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (playerToSaturnoDistance < minDistanceAreaDanger)
             {
-                if (currentDeathTimer <= 3)
+                if (currentDeathTimer <= areaDangerTimerFrac * deathTimer)
                 {
                     currentDeathTimer += Time.deltaTime;
                 }
@@ -241,7 +258,7 @@ public class PlayerController : MonoBehaviour
         float deathPercentage = currentDeathTimer / deathTimer;
 
         // Camera Material
-        cameraMaterial.SetFloat("_DarknessFactor", deathPercentage);
+        cameraMaterial.SetFloat("_DarknessFactor", Mathf.Pow(deathPercentage, darknessExpFactor));
         cameraMaterial.SetFloat("_DistortionFactor", deathPercentage);
 
         // Audios

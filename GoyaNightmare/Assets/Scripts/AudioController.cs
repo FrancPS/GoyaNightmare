@@ -14,7 +14,7 @@ public class AudioController : MonoBehaviour
     public static AudioSource[] audios = null;
     public static AudioSource[] sfx = null;
 
-    static uint currentLevel = 1;
+    static uint currentLevel;
 
     enum Music
     {
@@ -35,6 +35,7 @@ public class AudioController : MonoBehaviour
     private void Awake()
     {
         audioController = this;
+        currentLevel = 1;
     }
 
     void Start()
@@ -65,8 +66,8 @@ public class AudioController : MonoBehaviour
         }
         else
         {
-            audios[currentLevel - 1].Stop();
             audios[(int)Music.DEATH_MUSIC].Play();
+            audios[currentLevel - 1].Stop();
         }
 
         currentLevel = level;

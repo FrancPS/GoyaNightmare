@@ -4249,7 +4249,7 @@ MonoBehaviour:
   facingSaturnoAudioTimer: 20
   distanceSaturnoAudio: {fileID: 4048983033917628644}
   saturno: {fileID: 3042912298564877631}
-  deathTimer: 200
+  deathTimer: 8
   minDistanceContactDanger: 29
   minDistanceAreaDanger: 17
   areaDangerTimerFrac: 0.5

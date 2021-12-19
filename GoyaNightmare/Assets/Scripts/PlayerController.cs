@@ -101,9 +101,18 @@ public class PlayerController : MonoBehaviour
 
         if (victorySequence)
         {
+            // Recovery
             distanceSaturnoAudio.volume = 0.0f;
-            cameraMaterial.SetFloat("_DistortionFactor", 0);
-            cameraMaterial.SetFloat("_DarknessFactor", 0);
+            if (currentDeathTimer > 0) {
+                currentDeathTimer -= Time.deltaTime * recoverOnSafeZone;
+            } else
+            {
+                currentDeathTimer = 0;
+            }
+            float deathPercentage = currentDeathTimer / deathTimer;
+            cameraMaterial.SetFloat("_DarknessFactor", Mathf.Pow(deathPercentage, darknessExpFactor));
+            cameraMaterial.SetFloat("_DistortionFactor", deathPercentage);
+
             mainCamera.GetComponent<MouseLook>().ActivateMouseLook(false);
             currentVictoryRotationTime += Time.deltaTime;
             Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);

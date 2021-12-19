@@ -92,7 +92,7 @@ public class SaturnoAI : MonoBehaviour
 
         if (Physics.Raycast(player.transform.position, playerToSaturno, out hit, Mathf.Infinity))
         {
-            if (Vector3.Dot(playerToSaturno, player.transform.forward) > 0.0f && hit.collider.name == "Saturno")
+            if (hit.collider.name == "Saturno" && Vector3.Dot(playerToSaturno, player.transform.forward) > 0.0f)
             {
                 agent.speed = saturnoMaxSpeed * (1 - speedReduction);
                 seenByPlayer = true;

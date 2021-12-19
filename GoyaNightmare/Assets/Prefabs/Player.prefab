@@ -363,7 +363,7 @@ MonoBehaviour:
   maxReduction: 2
   maxIncrease: 2
   rateDamping: 0.05
-  strength: 50
+  strength: 20
   lanternTutorialText: {fileID: 0}
   audioOpen: {fileID: 4048983032791793012}
   audioClose: {fileID: 4048983032763333161}
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536b86923b63cc84a86e0ba37fae250b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 500
+  mouseSensitivity: 100
 --- !u!114 &4048983032416056931
 MonoBehaviour:
   m_ObjectHideFlags: 0

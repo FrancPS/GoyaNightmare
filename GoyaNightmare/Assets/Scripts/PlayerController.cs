@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
             if (sprinting)
             {
-                StaminaBar.instance.UseStamina(sprintStaminaCost); // Update stamina bar
+                StaminaBar.instance.UseStamina(sprintStaminaCost * Time.deltaTime); // Update stamina bar
                 if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudioRun); // Steps audio running
             }
             else

@@ -4238,7 +4238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 2.3
-  sprintStaminaCost: 0.07
+  sprintStaminaCost: 15
   inSafeZone: 0
   lanternTutorialText: {fileID: 2760880325208267605}
   sprintTutorialText: {fileID: 301611876425268700}

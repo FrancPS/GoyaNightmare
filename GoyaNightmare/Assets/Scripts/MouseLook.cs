@@ -21,6 +21,7 @@ public class MouseLook : MonoBehaviour
     {
         playerBody = this.transform.parent;
         AllowCameraRotation(true);
+        ActivateCursor(false);
     }
 
     // Update is called once per frame

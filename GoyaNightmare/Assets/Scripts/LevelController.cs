@@ -51,13 +51,16 @@ public class LevelController : MonoBehaviour
         canvasVictory = victoryCanvas;
         fadeInDuration = fadeInTimer;
         fadeOutDuration = fadeOutTimer;
+
+        // Camera references
+        GameObject cameraGO = GameObject.Find("Main Camera");
+        gameCamera = cameraGO.GetComponent<Camera>();
+        cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
     }
 
     void Start()
     {
-        GameObject cameraGO = GameObject.Find("Main Camera");
-        gameCamera = cameraGO.GetComponent<Camera>();
-        cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
+        
         cameraMaterial.SetFloat("_DarknessFactor", 1);
 
         currentFadeInDuration = fadeInDuration;
@@ -146,7 +149,9 @@ public class LevelController : MonoBehaviour
 
     public static void FinishLevel()
     {
-        gameCamera.GetComponent<MouseLook>().ActivateCursor(true);
+        MouseLook mouseLook = gameCamera.GetComponent<MouseLook>(); // TODO: Should not be static
+        mouseLook.AllowCameraRotation(false);
+        mouseLook.ActivateCursor(true);
         playerFinished = true;
         AudioController.ChangeLevelMusic(5);
         canvasVictory.SetActive(true);
@@ -154,8 +159,9 @@ public class LevelController : MonoBehaviour
 
     public static void Death()
     {
-        gameCamera.GetComponent<MouseLook>().ActivateMouseLook(false);
-        gameCamera.GetComponent<MouseLook>().ActivateCursor(true);
+        MouseLook mouseLook = gameCamera.GetComponent<MouseLook>(); // TODO: Should not be static
+        mouseLook.AllowCameraRotation(false);
+        mouseLook.ActivateCursor(true);
         playerDead = true;
         AudioController.ChangeLevelMusic(6);
         canvasDeath.SetActive(true);

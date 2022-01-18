@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * This script is responsible for controlling the player camera rotation based on the mouse movement.
+/* This script is responsible for controlling the player camera rotation based on the mouse movement.
  * Mouse horizontal movement => Rotate the player object on its Y axis.
  * Mouse vertical movement => Rotate the camera on its X axis.
  * The camera rotation is clamped to +-60º.
@@ -11,63 +10,49 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSensitivity = 100f;
+    public float mouseSensitivity = 1f;
+    private bool canRotate;
 
+    // Quick references
     private Transform playerBody;
     private float xRotation = 0f;
-    private float fadeInDuration;
-
-    private bool canLook;
 
     void Start()
     {
         playerBody = this.transform.parent;
-        fadeInDuration = LevelController.fadeInDuration;
-        
-        canLook = true;
-        ActivateCursor(false);
+        AllowCameraRotation(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (canLook)
+        // TODO: set can rotate after finiching the LevelController.fadeIn
+        if (canRotate)
         {
-            if (fadeInDuration > 0)
-            {
-                fadeInDuration -= Time.deltaTime;
-                return;
-            }
-
             // Get mouse input
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
             // Apply horizontal rotation on the player
             playerBody.Rotate(Vector3.up * mouseX);
 
-            // Apply vertical rotation clamped on the camera
+            // Apply vertical rotation on the camera (clamped to 60 degrees)
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -60f, 60f);
             transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         }
     }
 
-    public void ActivateMouseLook(bool isActive)
+    public void AllowCameraRotation(bool isAllowed)
     {
-        canLook = isActive;
+        canRotate = isAllowed;
     }
 
     public void ActivateCursor(bool isActive)
     {
+        // Active: Visible normal cursor
+        // not Active: Hidden cursor, forced to be at the center of the screen.
         Cursor.visible = isActive;
-        if (isActive)
-        {
-            Cursor.lockState = CursorLockMode.None;
-        } else
-        {
-            Cursor.lockState = CursorLockMode.Locked; // Force the cursor to be always at the center of the screen and hide it
-        }
-        
+        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }

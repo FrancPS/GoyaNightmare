@@ -10,7 +10,12 @@ public class ButtonFunctions : MonoBehaviour
     public GameObject pauseCanvas;
 
     bool isPaused = false;
+    MouseLook mouseLook;
 
+    private void Awake()
+    {
+        mouseLook = GameObject.Find("Main Camera").GetComponent<MouseLook>();
+    }
 
     private void Update()
     {
@@ -55,13 +60,15 @@ public class ButtonFunctions : MonoBehaviour
         if (isPaused) { Time.timeScale = 0; }
         else { Time.timeScale = 1; }
 
-        GameObject.Find("Main Camera").GetComponent<MouseLook>().ActivateCursor(isPaused);
+        mouseLook.AllowCameraRotation(!isPaused);
+        mouseLook.ActivateCursor(isPaused);
     }
 
     public void ReturnToMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); // Only applicable because we only have 1 game scene
         PauseGame(false);
-        GameObject.Find("Main Camera").GetComponent<MouseLook>().ActivateCursor(true);
+        mouseLook.AllowCameraRotation(false);
+        mouseLook.ActivateCursor(true);
     }
 }

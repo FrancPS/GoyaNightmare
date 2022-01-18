@@ -62,7 +62,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DarknessFactor: 0.7616045
+    - _DarknessFactor: 0.41996413
     - _DetailNormalMapScale: 1
     - _DistortionFactor: 0
     - _DstBlend: 0

@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxisRaw("Vertical");
 
         moving = horizontalInput != 0 || verticalInput != 0;
-        sprinting = Input.GetButton("Sprint") && StaminaBar.instance.HasStamina();
+        sprinting = Input.GetButton("Sprint") && StaminaBar.Instance.HasStamina();
 
         // SprintTutorial
         if (!firstTimeExit)
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
             if (sprinting)
             {
-                StaminaBar.instance.UseStamina(sprintStaminaCost * Time.deltaTime); // Update stamina bar
+                StaminaBar.Instance.UseStamina(sprintStaminaCost * Time.deltaTime); // Update stamina bar
                 if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudioRun); // Steps audio running
             }
             else

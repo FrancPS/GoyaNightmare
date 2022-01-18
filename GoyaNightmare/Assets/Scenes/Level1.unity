@@ -96851,11 +96851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17fbc846bccf341a3ef578bc39855c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regenDelayTime: 2
-  regenSpeedRatio: 0.1
-  background: {fileID: 2940552422075685584}
-  fill: {fileID: 2940552421746652179}
-  fadeTime: 0.5
+  regenDelaySeconds: 2
+  regenTickSeconds: 0.1
+  fadeDelaySeconds: 2
+  fadeDuration: 0.5
 --- !u!114 &2940552421830272301
 MonoBehaviour:
   m_ObjectHideFlags: 0

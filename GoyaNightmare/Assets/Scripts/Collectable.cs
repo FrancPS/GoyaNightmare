@@ -102,7 +102,7 @@ public class Collectable : MonoBehaviour
 
         meshRenderer.enabled = false;
 
-        LevelController.ChangeLevel();
+        GameController.Instance.GoToNextStage();
         
     }
 

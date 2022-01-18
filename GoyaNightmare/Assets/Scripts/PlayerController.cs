@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelController.playerDead || LevelController.playerFinished) return;
+        if (GameController.Instance.HasGameFinished()) return;
 
         if (victorySequence)
         {
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentVictoryRotationTime >= victoryRotationTimer + 1)
             {
-                LevelController.FinishLevel();
+                GameController.Instance.FinishLevel();
                 victorySequence = false;
             }
             return;
@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
         {
             StopCoroutine(breathingCoroutine);
             distanceSaturnoAudio.volume = 0.0f;
-            LevelController.Death();
+            GameController.Instance.Death();
         }
     }
 

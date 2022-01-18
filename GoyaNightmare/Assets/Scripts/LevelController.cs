@@ -5,73 +5,60 @@ using UnityEngine.AI;
 
 public class LevelController : MonoBehaviour
 {
-    // Variables
-    public static LevelController levelController;
-    public static uint objectsCollected;
-    public static uint currentLevel;
-    public static bool canFinish;
-    public static bool playerDead;
-    public static bool playerFinished;
-
     [Header("Level Properties")]
     public static float fadeInTimer = 5;
     public static float fadeOutTimer = 5;
 
-    [Header("Canvas Properties")]
+    [Header("Win & Lose Canvas")]
     public GameObject victoryCanvas;
     public GameObject deathCanvas;
 
-
-    [Header("Obstacles Prefab")]
+    [Header("Navigation")]
     public GameObject obstaclesParent;
     public NavMeshSurface[] surfaces;
 
-    static Camera gameCamera;
-    Material cameraMaterial = null;
-    float currentFadeInDuration = 5;
+    // Game State Static Variables
+    public static uint objectsCollected { get; private set; }
+    public static uint currentLevel { get; private set; }
+    public static bool canFinish { get; private set; }
 
-    public static GameObject canvasVictory { get; private set; }
-    public static GameObject canvasDeath { get; private set; }
+    // Camera references
+    Camera gameCamera;
+    Material cameraMaterial = null;
+    MouseLook mouseLook;
+
+
+
+    float currentFadeInDuration = 5;
     public static float fadeInDuration { get; private set; }
-    public static float fadeOutDuration { get; private set; }
 
     // Functions
     private void Awake()
     {
-        levelController = this;
-
         objectsCollected = 0;
         currentLevel = 1;
         canFinish = false;
-        playerFinished = false;
-        playerDead = false;
 
         // Setting Static variables
-        canvasDeath = deathCanvas;
-        canvasVictory = victoryCanvas;
         fadeInDuration = fadeInTimer;
-        fadeOutDuration = fadeOutTimer;
 
-        // Camera references
-        GameObject cameraGO = GameObject.Find("Main Camera");
+        // Initialise Camera references
+        GameObject cameraGO = GameObject.FindWithTag("MainCamera");
         gameCamera = cameraGO.GetComponent<Camera>();
         cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
+        mouseLook = gameCamera.GetComponent<MouseLook>();
     }
 
     void Start()
     {
-        
         cameraMaterial.SetFloat("_DarknessFactor", 1);
 
         currentFadeInDuration = fadeInDuration;
 
-        levelController.ModifyLevel(currentLevel);
+        ModifyLevelLayout(currentLevel);
 
         victoryCanvas.SetActive(false);
         deathCanvas.SetActive(false);
-        canvasVictory = victoryCanvas;
-        canvasDeath = deathCanvas;
-
     }
 
     void Update()
@@ -83,13 +70,13 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    static public void ChangeLevel()
+    public void GoToNextStage()
     {
         objectsCollected++;
         if (objectsCollected % 2 == 0)
         {
             currentLevel++;
-            levelController.ModifyLevel(currentLevel);
+            ModifyLevelLayout(currentLevel);
             AudioController.ChangeLevelMusic(currentLevel);
             if (gameCamera)
             {
@@ -105,12 +92,12 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    void ModifyLevel(uint currentLevel)
+    void ModifyLevelLayout(uint currentLevel)
     {
-        int children = levelController.obstaclesParent.transform.childCount;
+        int children = obstaclesParent.transform.childCount;
         for (int i = 0; i < children; ++i)
         {
-            GameObject obstacle = levelController.obstaclesParent.transform.GetChild(i).gameObject;
+            GameObject obstacle = obstaclesParent.transform.GetChild(i).gameObject;
             if (obstacle)
             {
                 Obstacle obstacleScript = obstacle.GetComponent<Obstacle>();
@@ -136,10 +123,10 @@ public class LevelController : MonoBehaviour
                 }
             }
         }
-        levelController.ModifyNavMesh();
+        UpdateNavMesh();
     }
 
-    void ModifyNavMesh()
+    void UpdateNavMesh()
     {
         for (int i = 0; i < surfaces.Length; i++)
         {
@@ -147,23 +134,21 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public static void FinishLevel()
+
+    // Actual Level Controller
+    public void FinishLevel()
     {
-        MouseLook mouseLook = gameCamera.GetComponent<MouseLook>(); // TODO: Should not be static
         mouseLook.AllowCameraRotation(false);
         mouseLook.ActivateCursor(true);
-        playerFinished = true;
         AudioController.ChangeLevelMusic(5);
-        canvasVictory.SetActive(true);
+        victoryCanvas.SetActive(true);
     }
 
-    public static void Death()
+    public void Death()
     {
-        MouseLook mouseLook = gameCamera.GetComponent<MouseLook>(); // TODO: Should not be static
         mouseLook.AllowCameraRotation(false);
         mouseLook.ActivateCursor(true);
-        playerDead = true;
         AudioController.ChangeLevelMusic(6);
-        canvasDeath.SetActive(true);
+        deathCanvas.SetActive(true);
     }
 }

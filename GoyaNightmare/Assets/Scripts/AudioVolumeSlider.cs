@@ -12,16 +12,19 @@ public class AudioVolumeSlider : MonoBehaviour
 {
     Slider slider;
 
-    void Start()
+    private void Awake()
     {
         slider = GetComponent<Slider>();
-        slider.value = GameController.masterVolume;
+    }
+
+    void Start()
+    {
+        slider.value = GameController.Instance.GetMasterVolume();
     }
 
     public void OnSliderChange()
     {
         if (!slider) return;
-
-        GameController.SetGeneralVolume(slider.value);
+        GameController.Instance.SetMasterVolume(slider.value);
     }
 }

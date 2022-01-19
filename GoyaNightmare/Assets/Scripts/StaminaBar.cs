@@ -88,6 +88,12 @@ public class StaminaBar : MonoBehaviour
             currentStamina += maxStamina / 100;
             staminaBar.value = currentStamina;
 
+            if (GameController.Instance.HasGameFinished())
+            {
+                HideShowBarInstantly(false);
+                yield break;
+            }
+
             yield return regenTick;
         }
 

@@ -11,7 +11,7 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 1f;
-    private bool canRotate;
+    private static bool canRotate;
 
     // Quick references
     private Transform playerBody;
@@ -20,14 +20,13 @@ public class MouseLook : MonoBehaviour
     void Start()
     {
         playerBody = this.transform.parent;
-        AllowCameraRotation(true);
-        ActivateCursor(false);
+        ToggleCameraAndCursor(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TODO: set can rotate after finiching the LevelController.fadeIn
+        // TODO: set can rotate after finishing the LevelController.fadeIn
         if (canRotate)
         {
             // Get mouse input
@@ -44,12 +43,18 @@ public class MouseLook : MonoBehaviour
         }
     }
 
-    public void AllowCameraRotation(bool isAllowed)
+    public static void ToggleCameraAndCursor(bool isGameCamera)
+    {
+        AllowCameraRotation(isGameCamera);
+        ActivateCursor(!isGameCamera);
+    }
+
+    public static void AllowCameraRotation(bool isAllowed)
     {
         canRotate = isAllowed;
     }
 
-    public void ActivateCursor(bool isActive)
+    public static void ActivateCursor(bool isActive)
     {
         // Active: Visible normal cursor
         // not Active: Hidden cursor, forced to be at the center of the screen.

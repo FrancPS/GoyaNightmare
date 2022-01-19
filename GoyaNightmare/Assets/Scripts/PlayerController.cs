@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
             cameraMaterial.SetFloat("_DarknessFactor", Mathf.Pow(deathPercentage, darknessExpFactor));
             cameraMaterial.SetFloat("_DistortionFactor", deathPercentage);
 
-            mainCamera.GetComponent<MouseLook>().AllowCameraRotation(false);
+            MouseLook.AllowCameraRotation(false);
             currentVictoryRotationTime += Time.deltaTime;
             Vector3 lookAtDirection = Vector3.Slerp(victoryDirection, new Vector3(0, 0, 1), currentVictoryRotationTime / victoryRotationTimer);
             mainCamera.transform.LookAt(mainCamera.transform.position + lookAtDirection);

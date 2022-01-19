@@ -11317,6 +11317,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4405289158163578, guid: ed2a11d3020445d46b649ffb61a40b94, type: 3}
   m_PrefabInstance: {fileID: 1056946100}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &479251583 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1206067917088619349, guid: 821333f9c0270b44e9f99502438a697c, type: 3}
+  m_PrefabInstance: {fileID: 1058407916}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598dc3e4b3d387b40a6b7f3b306f862e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &479981703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12479,7 +12490,7 @@ GameObject:
   - component: {fileID: 553590573}
   - component: {fileID: 553590575}
   - component: {fileID: 553590572}
-  - component: {fileID: 1547637675}
+  - component: {fileID: 553590563}
   m_Layer: 5
   m_Name: Victory Screen
   m_TagString: Untagged
@@ -12487,6 +12498,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!225 &553590563
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553590562}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &553590572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36604,6 +36627,7 @@ GameObject:
   - component: {fileID: 1468740268}
   - component: {fileID: 1468740270}
   - component: {fileID: 1468740271}
+  - component: {fileID: 1468740272}
   m_Layer: 5
   m_Name: Death Screen
   m_TagString: Untagged
@@ -36632,7 +36656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9411765}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -36649,6 +36673,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1468740272
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468740269}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1469798773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43095,25 +43131,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44751cdbc19fbf4a938488ec069ba94, type: 3}
---- !u!95 &1547637675
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553590562}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6e0fd10bcfa25e0488760b128aae0a60, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1552263898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43332,7 +43349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -43366,7 +43383,7 @@ RectTransform:
   - {fileID: 1336490382}
   - {fileID: 1357852243}
   m_Father: {fileID: 2940552423525877570}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -43392,13 +43409,26 @@ GameObject:
   - component: {fileID: 1560555913}
   - component: {fileID: 1560555915}
   - component: {fileID: 1560555912}
+  - component: {fileID: 1560555919}
   m_Layer: 5
-  m_Name: Pause Menu
+  m_Name: Pause Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!225 &1560555919
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560555918}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1560807899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45779,10 +45809,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 213952598346971074}
-        m_TargetAssemblyTypeName: ButtonFunctions, Assembly-CSharp
+      - m_Target: {fileID: 479251583}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: PauseGame
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -45795,6 +45825,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1560555918}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -79000,7 +79042,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelTransition: {fileID: 785829426}
-  pauseCanvas: {fileID: 1560555918}
 --- !u!1 &301611876425268700
 GameObject:
   m_ObjectHideFlags: 0
@@ -97190,7 +97231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17fbc846bccf341a3ef578bc39855c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regenDelaySeconds: 2
+  regenDelaySeconds: 1
   regenTickSeconds: 0.1
   fadeDelaySeconds: 2
   fadeDuration: 0.5
@@ -97381,8 +97422,8 @@ RectTransform:
   - {fileID: 8779915179835178678}
   - {fileID: 553590573}
   - {fileID: 1468740268}
-  - {fileID: 3487777856788217048}
   - {fileID: 1560555913}
+  - {fileID: 3487777856788217048}
   - {fileID: 785829425}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -97909,7 +97950,7 @@ Transform:
   - {fileID: 4321474077494337544}
   - {fileID: 4387590597994921777}
   m_Father: {fileID: 2940552423525877570}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3609023398580821858
 MeshFilter:
@@ -97966,8 +98007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81c8bbc8f92dc5429eac639ce79a5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  victoryCanvas: {fileID: 553590562}
-  deathCanvas: {fileID: 1468740269}
+  victoryCanvas: {fileID: 553590563}
+  deathCanvas: {fileID: 1468740272}
+  pauseCanvas: {fileID: 1560555919}
   obstaclesParent: {fileID: 1356671625592741847}
   surfaces:
   - {fileID: 1211199249}

@@ -5,12 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ButtonFunctions : MonoBehaviour
 {
-    
-    public GameObject pauseCanvas;
-
-    bool isPaused = false;
-    MouseLook mouseLook;
-
     // Scene Transitions
     public CanvasGroup levelTransition;
     private Coroutine lastFadeRoutine = null;
@@ -18,7 +12,6 @@ public class ButtonFunctions : MonoBehaviour
 
     private void Awake()
     {
-        mouseLook = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MouseLook>();
         levelTransition.alpha = 1;
     }
 
@@ -30,43 +23,7 @@ public class ButtonFunctions : MonoBehaviour
         lastFadeRoutine = StartCoroutine(SceneFadeIn());
     }
 
-    private void Update()
-    {
-        if (pauseCanvas && Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused)
-            {       
-                PauseGame(false);
-            }
-            else
-            {
-                PauseGame(true);
-            }
-        }
-    }
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
-
-    public void PauseGame(bool pause)
-    {
-        if (!pauseCanvas) return;
-
-        isPaused = pause;
-        pauseCanvas.SetActive(isPaused);
-
-        if (isPaused) { Time.timeScale = 0; }
-        else { Time.timeScale = 1; }
-
-        mouseLook.AllowCameraRotation(!isPaused);
-        mouseLook.ActivateCursor(isPaused);
-    }
-
-
-
-    #region Scene Transitions
+    #region Button Callbacks
     public void Play()
     {
         targetScene = SceneManager.GetActiveScene().buildIndex + 1; // Using buildIndex is faster than comparing names
@@ -76,19 +33,24 @@ public class ButtonFunctions : MonoBehaviour
     public void Restart()
     {
         targetScene = SceneManager.GetActiveScene().buildIndex;
+        MouseLook.ToggleCameraAndCursor(false);
         lastFadeRoutine = StartCoroutine(SceneFadeOut());
-        PauseGame(false);
     }
 
     public void ReturnToMenu()
     {
         targetScene = 0; // 0 = Main Menu scene
-        PauseGame(false);
-        //mouseLook.AllowCameraRotation(false);
-        //mouseLook.ActivateCursor(true);
+        MouseLook.ToggleCameraAndCursor(false);
         lastFadeRoutine = StartCoroutine(SceneFadeOut());
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+    #endregion
+
+    #region Scene Transitions
     IEnumerator SceneFadeOut()
     {
         if (lastFadeRoutine != null) StopCoroutine(lastFadeRoutine);

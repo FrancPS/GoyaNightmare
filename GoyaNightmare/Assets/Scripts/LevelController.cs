@@ -27,20 +27,12 @@ public class LevelController : MonoBehaviour
     Material cameraMaterial = null;
     MouseLook mouseLook;
 
-
-
-    float currentFadeInDuration = 5;
-    public static float fadeInDuration { get; private set; }
-
     // Functions
     private void Awake()
     {
         objectsCollected = 0;
         currentLevel = 1;
         canFinish = false;
-
-        // Setting Static variables
-        fadeInDuration = fadeInTimer;
 
         // Initialise Camera references
         GameObject cameraGO = GameObject.FindWithTag("MainCamera");
@@ -51,23 +43,12 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
-        cameraMaterial.SetFloat("_DarknessFactor", 1);
-
-        currentFadeInDuration = fadeInDuration;
+        cameraMaterial.SetFloat("_DarknessFactor", 0);
 
         ModifyLevelLayout(currentLevel);
 
         victoryCanvas.SetActive(false);
         deathCanvas.SetActive(false);
-    }
-
-    void Update()
-    {
-        if (currentFadeInDuration > 0)
-        {
-            cameraMaterial.SetFloat("_DarknessFactor", currentFadeInDuration / fadeInDuration);
-            currentFadeInDuration -= Time.deltaTime;
-        }
     }
 
     public void GoToNextStage()

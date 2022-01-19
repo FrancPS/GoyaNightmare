@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour
     float stepsBaseVolume;
     float stepsBasePitch;
     AudioSource[] breathList;
-    float fadeInDuration;
     float sprintTutorialTimer = 0f;
 
     // Camera parameters
@@ -90,8 +89,6 @@ public class PlayerController : MonoBehaviour
         agent.updateRotation = false;
         breathingCoroutine = Breathing();
         StartCoroutine(breathingCoroutine);
-
-        fadeInDuration = LevelController.fadeInDuration;
     }
 
     // Update is called once per frame
@@ -123,15 +120,6 @@ public class PlayerController : MonoBehaviour
                 GameController.Instance.FinishLevel();
                 victorySequence = false;
             }
-            return;
-        }
-
-        // Block movement at Start
-        if (fadeInDuration > 0)
-        {
-            fadeInDuration -= Time.deltaTime;
-            if (fadeInDuration <= 0) lanternTutorialText.SetActive(true);
-
             return;
         }
 

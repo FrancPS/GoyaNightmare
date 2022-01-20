@@ -7216,7 +7216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b610e52a79ad7da49ba05528d45b04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyMaterial: {fileID: 2100000, guid: 9eb11958ef4597748a6d0787692d61c3, type: 2}
+  emptyMaterial: {fileID: 2100000, guid: 40a62b886b28d2b4e9016eb8cf724907, type: 2}
   paintingMaterial: {fileID: 2100000, guid: af7903673495af04a9dd4d06c952b635, type: 2}
 --- !u!1001 &263133129
 PrefabInstance:
@@ -21459,7 +21459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b610e52a79ad7da49ba05528d45b04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyMaterial: {fileID: 2100000, guid: 9eb11958ef4597748a6d0787692d61c3, type: 2}
+  emptyMaterial: {fileID: 2100000, guid: 33116c62e8c93334ba012d9656c0fbe4, type: 2}
   paintingMaterial: {fileID: 2100000, guid: 650f5deb9ca7a05469e22751e6079198, type: 2}
 --- !u!4 &890009457 stripped
 Transform:
@@ -49843,7 +49843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b610e52a79ad7da49ba05528d45b04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyMaterial: {fileID: 2100000, guid: 9eb11958ef4597748a6d0787692d61c3, type: 2}
+  emptyMaterial: {fileID: 2100000, guid: 423b845bb6682844dad3664c7b52696e, type: 2}
   paintingMaterial: {fileID: 2100000, guid: e13df1a1fe67b2147b6fb81f4b6e6f33, type: 2}
 --- !u!1001 &1854952892
 PrefabInstance:

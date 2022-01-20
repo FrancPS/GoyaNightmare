@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
     // Game Data
     private bool playerDead;
     private bool playerFinished;
-    private bool isAlreadyPaused;
+    private bool gameIsPaused;
 
     /* Level Controller contains the reference for the specific objects in each level.
      * In this regard, GameController will only act as an accessible interface for funcionality
@@ -77,26 +77,26 @@ public class GameController : MonoBehaviour
     {
         playerDead = false;
         playerFinished = false;
-        isAlreadyPaused = false;
+        gameIsPaused = false;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            LevelController.OnGamePaused(!isAlreadyPaused);
-            PauseGame(); // It pauses or resumes depending on the state of 'isAlreadyPaused'
+            LevelController.OnGamePaused(!gameIsPaused);
+            PauseGame(); // It pauses or resumes depending on the state of 'gameIsPaused'
         }
     }
 
     public void PauseGame()
     {
-        if (isAlreadyPaused) { Time.timeScale = 1; }
+        if (gameIsPaused) { Time.timeScale = 1; }
         else { Time.timeScale = 0; }
 
-        MouseLook.ToggleCameraAndCursor(isAlreadyPaused);
+        MouseLook.ToggleCameraAndCursor(gameIsPaused);
 
-        isAlreadyPaused = !isAlreadyPaused;
+        gameIsPaused = !gameIsPaused;
     }
 
     #region Audio Controls 

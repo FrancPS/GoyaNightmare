@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class LevelController : MonoBehaviour
 {
+    private const int MAX_NUM_COLLECTABLES = 5;
+
     [Header("Level Properties")]
     public static float fadeInTimer = 5;
     public static float fadeOutTimer = 5;
@@ -24,8 +26,8 @@ public class LevelController : MonoBehaviour
     public static bool canFinish { get; private set; }
 
     // Camera references
-    Camera gameCamera;
     Material cameraMaterial = null;
+    CameraShake cameraShake;
 
     private void Awake()
     {
@@ -35,8 +37,8 @@ public class LevelController : MonoBehaviour
 
         // Initialise Camera references
         GameObject cameraGO = GameObject.FindWithTag("MainCamera");
-        gameCamera = cameraGO.GetComponent<Camera>();
         cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
+        cameraShake = cameraGO.GetComponent<CameraShake>();
     }
 
     void Start()
@@ -53,22 +55,21 @@ public class LevelController : MonoBehaviour
         pauseCanvas.alpha = 1;
     }
 
+    #region Stages
     public void GoToNextStage()
     {
         objectsCollected++;
+
+        // Level layout is changed every second picture we collect.
         if (objectsCollected % 2 == 0)
         {
             currentLevel++;
             ModifyLevelLayout(currentLevel);
             AudioController.ChangeLevelMusic(currentLevel);
-            if (gameCamera)
-            {
-                CameraShake cameraShake = gameCamera.GetComponent<CameraShake>();
-                if (cameraShake) cameraShake.ShakeCamera();
-            }
-
+            cameraShake.ShakeCamera();
         }
-        else if (objectsCollected == 5)
+        // TODO: If all collectables have been collected, trigger guidance to central room
+        else if (objectsCollected == MAX_NUM_COLLECTABLES)
         {
             canFinish = true;
             AudioController.ChangeLevelMusic(4);
@@ -77,45 +78,34 @@ public class LevelController : MonoBehaviour
 
     void ModifyLevelLayout(uint currentLevel)
     {
-        int children = obstaclesParent.transform.childCount;
-        for (int i = 0; i < children; ++i)
+        foreach (Transform obstacle in obstaclesParent.transform)
         {
-            GameObject obstacle = obstaclesParent.transform.GetChild(i).gameObject;
-            if (obstacle)
+            Obstacle obstacleScript = obstacle.GetComponent<Obstacle>();
+            if (obstacleScript)
             {
-                Obstacle obstacleScript = obstacle.GetComponent<Obstacle>();
-                if (obstacleScript)
+                bool toActivate = false;
+                foreach (uint obstacleLevel in obstacleScript.obstacleLevels)
                 {
-                    bool toActivate = false;
-                    foreach (uint obstacleLevel in obstacleScript.obstacleLevels)
+                    if (obstacleLevel == currentLevel)
                     {
-                        if (obstacleLevel == currentLevel)
-                        {
-                            toActivate = true;
-                        }
-                    }
-
-                    if (toActivate)
-                    {
-                        obstacle.SetActive(true);
-                    }
-                    else
-                    {
-                        obstacle.SetActive(false);
+                        toActivate = true;
                     }
                 }
+
+                obstacle.gameObject.SetActive(toActivate);
             }
         }
-        UpdateNavMesh();
+        UpdateNavMeshes();
     }
 
-    void UpdateNavMesh()
+    void UpdateNavMeshes()
     {
         for (int i = 0; i < surfaces.Length; i++)
         {
             surfaces[i].BuildNavMesh();
         }
     }
+    #endregion
 
     #region Canvas Opening Coroutines
     public void OpenCanvas(int canvasID)

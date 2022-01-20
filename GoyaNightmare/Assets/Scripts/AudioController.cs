@@ -56,7 +56,7 @@ public class AudioController : MonoBehaviour
 
         if (level < 5)
         {
-            audioController.StartCoroutine(AudioTransition(audios[level - 2], audios[level - 1], 1.0f));
+            audioController.StartCoroutine(AudioTransition(audios[level - 2], audios[level - 1]));
         }
         else if (level == 5)
         {
@@ -73,7 +73,7 @@ public class AudioController : MonoBehaviour
         currentLevel = level;
     }
 
-    public static IEnumerator AudioTransition(AudioSource audioSource, AudioSource nextAudioSource, float fadeTime)
+    public static IEnumerator AudioTransition(AudioSource audioSource, AudioSource nextAudioSource, float fadeTime = 1f)
     {
         float startVolume = audioSource.volume;
 

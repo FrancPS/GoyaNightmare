@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
         {
             inSafeZone = false;
 
-            // Toggle Lantern tutorial
+            // Toggle Lantern and Sprint tutorials
             if (firstTimeExit)
             {
                 lanternTutorialText.SetActive(false);
@@ -214,7 +214,6 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Breathing()
     {
-        //yield return new WaitForSeconds(1f);
         while (true)
         {
             int index = Random.Range(0, breathList.Length - 1);

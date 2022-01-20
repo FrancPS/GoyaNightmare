@@ -6,6 +6,9 @@ using UnityEngine.AI;
 public class LevelController : MonoBehaviour
 {
     private const int MAX_NUM_COLLECTABLES = 5;
+    public const int PAUSE_CANVAS_ID = 0;
+    public const int VICTORY_CANVAS_ID = 1;
+    public const int DEATH_CANVAS_ID = 2;
 
     [Header("Level Properties")]
     public static float fadeInTimer = 5;
@@ -107,13 +110,13 @@ public class LevelController : MonoBehaviour
     }
     #endregion
 
-    #region Canvas Opening Coroutines
+    #region Canvas Open/Close routines
     public void OpenCanvas(int canvasID)
     {
         switch (canvasID)
         {
             case 0:
-                StartCoroutine(CanvasFadeIn(pauseCanvas, 0.01f));
+                pauseCanvas.gameObject.SetActive(true);
                 break;
             case 1:
                 StartCoroutine(CanvasFadeIn(victoryCanvas, 0.25f));
@@ -131,7 +134,7 @@ public class LevelController : MonoBehaviour
         switch (canvasID)
         {
             case 0:
-                StartCoroutine(CanvasFadeOut(pauseCanvas, 0.01f));
+                pauseCanvas.gameObject.SetActive(false);
                 break;
             case 1:
                 StartCoroutine(CanvasFadeOut(victoryCanvas, 0.025f));
@@ -163,11 +166,6 @@ public class LevelController : MonoBehaviour
             yield return null;
         }
         canvas.gameObject.SetActive(false);
-    }
-
-    public void OnGamePaused(bool mustOpenPauseMenu)
-    {
-        pauseCanvas.gameObject.SetActive(mustOpenPauseMenu);
     }
     #endregion
 }

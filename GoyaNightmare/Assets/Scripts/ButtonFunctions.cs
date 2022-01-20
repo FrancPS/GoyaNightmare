@@ -6,21 +6,30 @@ using UnityEngine.SceneManagement;
 public class ButtonFunctions : MonoBehaviour
 {
     // Scene Transitions
+    public LevelController levelController;
     public CanvasGroup levelTransition;
     private Coroutine lastFadeRoutine = null;
     private int targetScene;
-
-    private void Awake()
-    {
-        levelTransition.alpha = 1;
-    }
+    private bool gameIsPaused;
 
     private void Start()
     {
+        levelTransition.alpha = 1;
+        gameIsPaused = false;
+
         // It is possible to overlap FadeIn and FadeOut Coroutines in an infinite loop of both.
         // This happens if the player tries to change the scene before the FadeIn has completed.
         // To avoid that we will store a ref to the last routine invoked, so we can stop it when starting another one.
         lastFadeRoutine = StartCoroutine(SceneFadeIn());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && levelController != null)
+        {
+            if (gameIsPaused) Resume();
+            else Pause();
+        }
     }
 
     #region Button Callbacks
@@ -30,10 +39,27 @@ public class ButtonFunctions : MonoBehaviour
         lastFadeRoutine = StartCoroutine(SceneFadeOut());
     }
 
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        gameIsPaused = true;
+        MouseLook.ToggleCameraAndCursor(false);
+        levelController.OpenCanvas(LevelController.PAUSE_CANVAS_ID);
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        gameIsPaused = false;
+        MouseLook.ToggleCameraAndCursor(true);
+        levelController.CloseCanvas(LevelController.PAUSE_CANVAS_ID);
+    }
+
     public void Restart()
     {
         targetScene = SceneManager.GetActiveScene().buildIndex;
         MouseLook.ToggleCameraAndCursor(false);
+        Resume();
         lastFadeRoutine = StartCoroutine(SceneFadeOut());
     }
 
@@ -41,6 +67,7 @@ public class ButtonFunctions : MonoBehaviour
     {
         targetScene = 0; // 0 = Main Menu scene
         MouseLook.ToggleCameraAndCursor(false);
+        Resume();
         lastFadeRoutine = StartCoroutine(SceneFadeOut());
     }
 
@@ -56,6 +83,7 @@ public class ButtonFunctions : MonoBehaviour
         if (lastFadeRoutine != null) StopCoroutine(lastFadeRoutine);
 
         levelTransition.gameObject.SetActive(true);
+        PlayerController.LockInputs(true);
 
         while (levelTransition.alpha < 1)
         {
@@ -69,6 +97,7 @@ public class ButtonFunctions : MonoBehaviour
     IEnumerator SceneFadeIn()
     {
         levelTransition.gameObject.SetActive(true);
+        PlayerController.LockInputs(true);
 
         yield return new WaitForSeconds(.5f);
         while (levelTransition.alpha > 0)
@@ -78,6 +107,7 @@ public class ButtonFunctions : MonoBehaviour
         }
 
         levelTransition.gameObject.SetActive(false);
+        PlayerController.LockInputs(false);
     }
     #endregion
 }

@@ -11298,17 +11298,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4405289158163578, guid: ed2a11d3020445d46b649ffb61a40b94, type: 3}
   m_PrefabInstance: {fileID: 1056946100}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &479251583 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1206067917088619349, guid: 821333f9c0270b44e9f99502438a697c, type: 3}
-  m_PrefabInstance: {fileID: 1058407916}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 598dc3e4b3d387b40a6b7f3b306f862e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &479981703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45789,18 +45778,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 479251583}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: PauseGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 310533859421782677}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
@@ -45813,10 +45790,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1560555918}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 213952598346971074}
+        m_TargetAssemblyTypeName: ButtonFunctions, Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -79021,6 +78998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef2e25ab99cf039468e49ce1f2d18ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelController: {fileID: 3751897281306760540}
   levelTransition: {fileID: 785829426}
 --- !u!1 &301611876425268700
 GameObject:

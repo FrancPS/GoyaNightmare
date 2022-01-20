@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour
     // Game Data
     private bool playerDead;
     private bool playerFinished;
-    private bool gameIsPaused;
 
     /* Level Controller contains the reference for the specific objects in each level.
      * In this regard, GameController will only act as an accessible interface for funcionality
@@ -77,26 +76,6 @@ public class GameController : MonoBehaviour
     {
         playerDead = false;
         playerFinished = false;
-        gameIsPaused = false;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            LevelController.OnGamePaused(!gameIsPaused);
-            PauseGame(); // It pauses or resumes depending on the state of 'gameIsPaused'
-        }
-    }
-
-    public void PauseGame()
-    {
-        if (gameIsPaused) { Time.timeScale = 1; }
-        else { Time.timeScale = 0; }
-
-        MouseLook.ToggleCameraAndCursor(gameIsPaused);
-
-        gameIsPaused = !gameIsPaused;
     }
 
     #region Audio Controls 
@@ -119,7 +98,7 @@ public class GameController : MonoBehaviour
         playerFinished = true;
         MouseLook.ToggleCameraAndCursor(false);
         AudioController.ChangeLevelMusic(5);
-        LevelController.OpenCanvas(1); // Codified canvases. 1 stands for Victory Canvas.
+        LevelController.OpenCanvas(LevelController.VICTORY_CANVAS_ID);
     }
 
     public void Death()
@@ -127,7 +106,7 @@ public class GameController : MonoBehaviour
         playerDead = true;
         MouseLook.ToggleCameraAndCursor(false);
         AudioController.ChangeLevelMusic(6);
-        LevelController.OpenCanvas(2);  // Codified canvases. 2 stands for Death Canvas.
+        LevelController.OpenCanvas(LevelController.DEATH_CANVAS_ID);
     }
 
     public bool HasGameFinished()

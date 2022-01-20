@@ -10,6 +10,9 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
+    static bool isInputLocked;
+
+
     public float speedMultiplier;
     public float sprintStaminaCost;
     public bool inSafeZone = false;
@@ -80,12 +83,13 @@ public class PlayerController : MonoBehaviour
         cameraMaterial.SetFloat("_DistortionFactor", 0);
 
         saturnoAI = saturno.GetComponent<SaturnoAI>();
-        inSafeZone = true;
-        firstTimeExit = true;
     }
 
     void Start()
     {
+        LockInputs(true);
+        inSafeZone = true;
+        firstTimeExit = true;
         agent.updateRotation = false;
         breathingCoroutine = Breathing();
         StartCoroutine(breathingCoroutine);
@@ -123,43 +127,46 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Get Input
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
-        moving = horizontalInput != 0 || verticalInput != 0;
-        sprinting = Input.GetButton("Sprint") && StaminaBar.Instance.HasStamina();
-
-        // SprintTutorial
-        if (!firstTimeExit)
+        if (!isInputLocked)
         {
-            if (sprinting || sprintTutorialTimer >= 10.0f)
-            {
-                sprintTutorialText.SetActive(false);
-            }
-            else
-            {
-                sprintTutorialTimer += Time.deltaTime;
-            }
-        }
+            // Get Input
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Movement
-        if (moving)
-        {
-            // Set input to local coordinates
-            movement = transform.right * horizontalInput + transform.forward * verticalInput;
+            moving = horizontalInput != 0 || verticalInput != 0;
+            sprinting = Input.GetButton("Sprint") && StaminaBar.Instance.HasStamina();
 
-            // Apply movement to the navmesh agent
-            agent.Move(movement * Time.deltaTime * (sprinting ? agent.speed * speedMultiplier : agent.speed));
-
-            if (sprinting)
+            // SprintTutorial
+            if (!firstTimeExit)
             {
-                StaminaBar.Instance.UseStamina(sprintStaminaCost * Time.deltaTime); // Update stamina bar
-                if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudioRun); // Steps audio running
+                if (sprinting || sprintTutorialTimer >= 10.0f)
+                {
+                    sprintTutorialText.SetActive(false);
+                }
+                else
+                {
+                    sprintTutorialTimer += Time.deltaTime;
+                }
             }
-            else
+
+            // Movement
+            if (moving)
             {
-                if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudio);  // Steps audio walking
+                // Set input to local coordinates
+                movement = transform.right * horizontalInput + transform.forward * verticalInput;
+
+                // Apply movement to the navmesh agent
+                agent.Move(movement * Time.deltaTime * (sprinting ? agent.speed * speedMultiplier : agent.speed));
+
+                if (sprinting)
+                {
+                    StaminaBar.Instance.UseStamina(sprintStaminaCost * Time.deltaTime); // Update stamina bar
+                    if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudioRun); // Steps audio running
+                }
+                else
+                {
+                    if (!stepsAudioRun.isPlaying && !stepsAudio.isPlaying) PlayStepAudio(stepsAudio);  // Steps audio walking
+                }
             }
         }
 
@@ -293,5 +300,10 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public static void LockInputs(bool lockThem)
+    {
+        isInputLocked = lockThem;
     }
 }

@@ -39,7 +39,7 @@ public class LevelController : MonoBehaviour
         canFinish = false;
 
         // Initialise Camera references
-        GameObject cameraGO = Camera.main.gameObject;
+        GameObject cameraGO = GameObject.FindWithTag("MainCamera");
         cameraMaterial = cameraGO.GetComponent<PostProcessEffect>().material;
         cameraShake = cameraGO.GetComponent<CameraShake>();
     }

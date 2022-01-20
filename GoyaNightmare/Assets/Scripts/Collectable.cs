@@ -29,7 +29,7 @@ public class Collectable : MonoBehaviour
     // Functions
     void Awake()
     {
-        gameCamera = Camera.main;
+        gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         meshRenderer = GetComponent<MeshRenderer>();
         collectedParticles = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();

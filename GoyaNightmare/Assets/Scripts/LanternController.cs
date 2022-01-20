@@ -62,7 +62,7 @@ public class LanternController : MonoBehaviour
     {
         while (true)
         {
-            lantern.intensity = Mathf.Lerp(lantern.intensity, Random.Range(storedIntensity - maxReduction, storedIntensity + maxIncrease), strength * Time.deltaTime);
+            lantern.intensity = Mathf.Lerp(lantern.intensity, Random.Range(storedIntensity - maxReduction, storedIntensity + maxIncrease), strength * rateDamping);
             yield return new WaitForSeconds(rateDamping);
         }
     }

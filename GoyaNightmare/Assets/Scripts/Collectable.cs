@@ -1,16 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-
-
 
 public class Collectable : MonoBehaviour
 {
     // Public Variables
-    [Header("General")]
-    public GameObject cameraGO;
-
     [Header("Material")]
     public Material material;
     public Material materialOutline;
@@ -23,163 +17,96 @@ public class Collectable : MonoBehaviour
     public GameObject painting;
 
     // Private Variables
-    uint id = 0;
-    string itemName = "";
-    bool isCollected = false;
-    bool isCollectable = false;
+    bool playerIsCloseToMe = false;
 
-
-    MeshRenderer meshRenderer = null;
+    // Components references
     Camera gameCamera = null;
+    MeshRenderer meshRenderer = null;
     ParticleSystem collectedParticles = null;
     AudioSource audioSource = null;
-
-    // Constructor
-    Collectable( uint _id, string _name)
-    {
-        id = _id;
-        itemName = _name;
-    }
-
-    // Getters
-    public uint GetId()
-    {
-        return id;
-    }
-    public string GetName()
-    {
-        return itemName;
-    }
-    public bool GetIsCollectable()
-    {
-        return isCollectable;
-    }
-
-    // Setters
-    public void SetId(uint _id)
-    {
-        id = _id;
-    }
-    public void SetName(string _name)
-    {
-        itemName = _name;
-    }
-    public void SetIsCollectable(bool _isCollectable)
-    {
-        isCollectable = _isCollectable;
-    }
+    Collider collectableCollider = null;
 
     // Functions
-    void Start()
+    void Awake()
     {
+        gameCamera = Camera.main;
         meshRenderer = GetComponent<MeshRenderer>();
-        gameCamera = cameraGO.GetComponent<Camera>();
         collectedParticles = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
+        collectableCollider = GetComponent<Collider>();
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Interact") && isCollectable)
+        if (playerIsCloseToMe)
         {
-            SetIsCollected();
+            if (IsCameraLooking())
+            {
+                ShowHintAndOutline();
+                if (Input.GetButtonDown("Interact")) PickUpCollectable();
+            }
+            else HideHintAndOutline();
         }
     }
-    void SetIsCollected()
+
+    void PickUpCollectable()
     {
-        isCollected = true;
-        isCollectable = false;
+        // Play collect effects
+        collectedParticles.Play();
+        audioSource.Play();
 
-        if (painting)
-        {
-            Painting paintingScript = painting.GetComponent<Painting>();
-            if (paintingScript) paintingScript.ChangeMaterial();
-        }
-
-        if (collectedParticles) collectedParticles.Play();
-        if (audioSource) audioSource.Play();
-        if (collectableHUD) collectableHUD.SetActive(false);
-
+        // Hide this Collectable
+        collectableHUD.SetActive(false);
         meshRenderer.enabled = false;
+        collectableCollider.enabled = false;
+
+        // Show up the corresponding Painting
+        Painting paintingScript = painting.GetComponent<Painting>();
+        if (paintingScript) paintingScript.ChangeMaterial();
 
         GameController.Instance.GoToNextStage();
-        
-    }
-
-    void UpdateCollectable()
-    {
-        if (!meshRenderer) return;
-
-        if (IsCameraLooking())
-        {
-            if (materialOutline && meshRenderer.material != materialOutline)
-            {
-                meshRenderer.material = materialOutline;
-            }
-
-            if (collectableHUD && collectableHUD.activeInHierarchy == false)
-            {
-                collectableHUD.SetActive(true);
-                isCollectable = true;
-            }
-
-        }
-        else
-        {
-            if (material && meshRenderer.material != material)
-            {
-                meshRenderer.material = material;
-            }
-
-            if (collectableHUD && collectableHUD.activeInHierarchy == true)
-            {
-                collectableHUD.SetActive(false);
-                isCollectable = false;
-            }
-        }
     }
 
     bool IsCameraLooking()
     {
-        if (!gameCamera) return false;
+        // Compare the angle of this object Forward() and main Camera Forward() vectors.
+        // If the angle is within a certain value, we can consider the player is looking at the painting.
 
         Vector3 cameraDirection = gameCamera.transform.forward;
         Vector3 objectDirection = Vector3.Normalize(transform.position - gameCamera.transform.position);
         float angle = Vector3.Dot(cameraDirection, objectDirection);
 
-        float temp = Mathf.Deg2Rad * visionAngle;
-
-        if (angle > Mathf.Cos(Mathf.Deg2Rad * visionAngle))
-        {
-            return true;
-        }
-
-        return false;
+        if (angle > Mathf.Cos(Mathf.Deg2Rad * visionAngle)) return true;
+        else return false;
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (isCollected) return;
-
         if (other.gameObject.name == "Player")
         {
-            UpdateCollectable();
+            playerIsCloseToMe = true;
         }
-
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (material && meshRenderer.material != material)
+        if (other.gameObject.name == "Player")
         {
-            meshRenderer.material = material;
+            HideHintAndOutline();
+            playerIsCloseToMe = false;
         }
+    }
 
-        if (collectableHUD && collectableHUD.activeInHierarchy == true)
-        {
-            collectableHUD.SetActive(false);
-            isCollectable = false;
-        }
+    private void ShowHintAndOutline()
+    {
+        meshRenderer.material = materialOutline;
+        collectableHUD.SetActive(true);
+    }
+
+    private void HideHintAndOutline()
+    {
+        meshRenderer.material = material;
+        collectableHUD.SetActive(false);
     }
 }
 

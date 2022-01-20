@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         stepsBasePitch = stepsAudio.pitch;
         breathList = breathAudios.GetComponents<AudioSource>();
 
-        mainCamera = GameObject.Find("Main Camera");
+        mainCamera = Camera.main.gameObject;
         cameraMaterial = mainCamera.GetComponent<PostProcessEffect>().material;
         cameraMaterial.SetFloat("_DistortionFactor", 0);
 

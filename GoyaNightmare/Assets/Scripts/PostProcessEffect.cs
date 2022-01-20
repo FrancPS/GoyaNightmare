@@ -5,7 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PostProcessEffect : MonoBehaviour
 {
-
     public Material material;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)

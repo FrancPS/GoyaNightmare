@@ -6,19 +6,23 @@ using UnityEngine.AI;
 
 public class SaturnoAI : MonoBehaviour
 {
+    [Header("Object References")]
     public GameObject player;
     public Light lantern;
     public Transform[] spawnPoints;
+    Animator animator;
+
+    [Header("AI Configuration")]
     public float teleportTriggeringDistance;
     public float teleportTriggeringTime;
     public float speedIncrease;
     public float speedReduction;
-    public Animator animator;
 
+    // NavMesh Agent
     Vector3 destination;
     NavMeshAgent agent;
     float agentRadius;
-    public float saturnoMaxSpeed;
+    float saturnoMaxSpeed;
 
     // Teleport
     bool seenByPlayer;
@@ -26,7 +30,9 @@ public class SaturnoAI : MonoBehaviour
     float playerFarAwayTimer = 0.0f;
     float playerToSaturnoDistance;
 
+    // Invisibility
     bool mustTurnVisible;
+    bool isVisible;
     public float minDistanceToTurnVisible;
 
     Component[] meshRenderers;
@@ -36,27 +42,32 @@ public class SaturnoAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         if (agent) saturnoMaxSpeed = agent.speed;
         agentRadius = agent.radius;
+        isVisible = true;
+        mustTurnVisible = true;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
         meshRenderers = GetComponentsInChildren(typeof(SkinnedMeshRenderer));
+        agent.Warp(spawnPoints[Random.Range(0, spawnPoints.Length)].position);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Check invisibility state
         Vector3 playerToSaturno = transform.position - player.transform.position;
         if (mustTurnVisible && Vector3.Dot(playerToSaturno, player.transform.forward) < 0.0f && playerToSaturno.magnitude > minDistanceToTurnVisible)
         {
             BecomeVisible();
         }
 
+        // Seek AI
         if (player.GetComponent<PlayerController>().inSafeZone)
         {
+            // Return to a random spawn point if the player is in the safe zone.
             agent.isStopped = false;
-            agent.SetDestination(spawnPoints[0].position);
+            agent.SetDestination(spawnPoints[Random.Range(0, spawnPoints.Length)].position);
         }
         else
         {
@@ -163,7 +174,7 @@ public class SaturnoAI : MonoBehaviour
 
     // Getters
     public bool GetSeenByPlayer() {
-        return seenByPlayer;
+        return seenByPlayer && isVisible;
     }
 
     public float GetPlayerToSaturnoDistance()
@@ -178,6 +189,7 @@ public class SaturnoAI : MonoBehaviour
             m.enabled = false;
         }
         agent.radius = 0.001f; // Make the radius negligible, so the collision against the player becomes almost impercetible.
+        isVisible = false;
     }
 
     private void BecomeVisible()
@@ -188,6 +200,12 @@ public class SaturnoAI : MonoBehaviour
         }
         agent.radius = agentRadius;
         mustTurnVisible = false;
+        isVisible = true;
+    }
+
+    public bool IsVisible()
+    {
+        return isVisible;
     }
 
 }

@@ -33273,11 +33273,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2109163876483815024, guid: b143fea7a09d03641b09481decd4e029, type: 3}
   m_PrefabInstance: {fileID: 148408967}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1309823609 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0e2e280eccfb31f438596a71e872aa02, type: 3}
-  m_PrefabInstance: {fileID: 331946873}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1311416223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1179427352695917611, guid: 8c4be196c40e99d4eb63ecfbc7f1abba, type: 3}
@@ -97991,9 +97986,7 @@ MonoBehaviour:
   teleportTriggeringTime: 10
   speedIncrease: 0.6
   speedReduction: 0.33
-  animator: {fileID: 1309823609}
-  saturnoMaxSpeed: 0
-  minDistanceToTurnVisible: 2
+  minDistanceToTurnVisible: 10
 --- !u!4 &3042912298564877627
 Transform:
   m_ObjectHideFlags: 0

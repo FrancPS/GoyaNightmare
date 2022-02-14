@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviour
                     remaningFacingSaturnoAudioTimer = facingSaturnoAudioTimer;
                 }
             }
-            else if (playerToSaturnoDistance < minDistanceAreaDanger)
+            else if (saturnoAI.IsVisible() && playerToSaturnoDistance < minDistanceAreaDanger)
             {
                 if (currentDeathTimer <= areaDangerTimerFrac * deathTimer)
                 {

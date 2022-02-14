@@ -17,6 +17,7 @@ public class SaturnoAI : MonoBehaviour
 
     Vector3 destination;
     NavMeshAgent agent;
+    float agentRadius;
     public float saturnoMaxSpeed;
 
     // Teleport
@@ -25,7 +26,8 @@ public class SaturnoAI : MonoBehaviour
     float playerFarAwayTimer = 0.0f;
     float playerToSaturnoDistance;
 
-    bool turnVisible;
+    bool mustTurnVisible;
+    public float minDistanceToTurnVisible;
 
     Component[] meshRenderers;
 
@@ -33,6 +35,7 @@ public class SaturnoAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         if (agent) saturnoMaxSpeed = agent.speed;
+        agentRadius = agent.radius;
     }
 
     // Start is called before the first frame update
@@ -45,13 +48,9 @@ public class SaturnoAI : MonoBehaviour
     void Update()
     {
         Vector3 playerToSaturno = transform.position - player.transform.position;
-        if (turnVisible && Vector3.Dot(playerToSaturno, player.transform.forward) < 0.0f)
+        if (mustTurnVisible && Vector3.Dot(playerToSaturno, player.transform.forward) < 0.0f && playerToSaturno.magnitude > minDistanceToTurnVisible)
         {
-            foreach (SkinnedMeshRenderer m in meshRenderers)
-            {
-                m.enabled = true;
-            }
-            turnVisible = false;
+            BecomeVisible();
         }
 
         if (player.GetComponent<PlayerController>().inSafeZone)
@@ -150,10 +149,7 @@ public class SaturnoAI : MonoBehaviour
     {
         if (other.name.Contains("Obstacle"))
         {
-            foreach (SkinnedMeshRenderer m in meshRenderers)
-            {
-                m.enabled = false;
-            }
+            BecomeInvisible();
         }
     }
 
@@ -161,7 +157,7 @@ public class SaturnoAI : MonoBehaviour
     {
         if (other.name.Contains("Obstacle"))
         {
-            turnVisible = true;
+            mustTurnVisible = true;
         }
     }
 
@@ -173,6 +169,25 @@ public class SaturnoAI : MonoBehaviour
     public float GetPlayerToSaturnoDistance()
     {
         return playerToSaturnoDistance;
+    }
+
+    private void BecomeInvisible()
+    {
+        foreach (SkinnedMeshRenderer m in meshRenderers)
+        {
+            m.enabled = false;
+        }
+        agent.radius = 0.001f; // Make the radius negligible, so the collision against the player becomes almost impercetible.
+    }
+
+    private void BecomeVisible()
+    {
+        foreach (SkinnedMeshRenderer m in meshRenderers)
+        {
+            m.enabled = true;
+        }
+        agent.radius = agentRadius;
+        mustTurnVisible = false;
     }
 
 }

@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour
     public float speedMultiplier;
     public float sprintStaminaCost;
     public bool inSafeZone = false;
-    public GameObject lanternTutorialText;
-    public GameObject sprintTutorialText;
 
     [Header("Audios")]
     public AudioSource stepsAudio;
@@ -50,7 +48,6 @@ public class PlayerController : MonoBehaviour
 
     Vector3 movement;
     NavMeshAgent agent;
-    bool firstTimeExit;
     bool moving;
     bool sprinting;
     bool victorySequence;
@@ -59,7 +56,6 @@ public class PlayerController : MonoBehaviour
     float stepsBaseVolume;
     float stepsBasePitch;
     AudioSource[] breathList;
-    float sprintTutorialTimer = 0f;
 
     // Camera parameters
     GameObject mainCamera;
@@ -89,7 +85,6 @@ public class PlayerController : MonoBehaviour
     {
         LockInputs(true);
         inSafeZone = true;
-        firstTimeExit = true;
         agent.updateRotation = false;
         breathingCoroutine = Breathing();
         StartCoroutine(breathingCoroutine);
@@ -135,19 +130,6 @@ public class PlayerController : MonoBehaviour
 
             moving = horizontalInput != 0 || verticalInput != 0;
             sprinting = Input.GetButton("Sprint") && StaminaBar.Instance.HasStamina();
-
-            // SprintTutorial
-            if (!firstTimeExit)
-            {
-                if (sprinting || sprintTutorialTimer >= 10.0f)
-                {
-                    sprintTutorialText.SetActive(false);
-                }
-                else
-                {
-                    sprintTutorialTimer += Time.deltaTime;
-                }
-            }
 
             // Movement
             if (moving)
@@ -208,14 +190,6 @@ public class PlayerController : MonoBehaviour
         if (other.name == "SafeRoom")
         {
             inSafeZone = false;
-
-            // Toggle Lantern and Sprint tutorials
-            if (firstTimeExit)
-            {
-                lanternTutorialText.SetActive(false);
-                sprintTutorialText.SetActive(true);
-                firstTimeExit = false;
-            }
         }
     }
 

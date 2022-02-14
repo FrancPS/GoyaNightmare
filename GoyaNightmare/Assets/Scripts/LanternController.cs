@@ -17,15 +17,12 @@ public class LanternController : MonoBehaviour
     public float rateDamping;
     public float strength;
 
-    public GameObject lanternTutorialText;
-
     [Header("Audios")]
     public AudioSource audioOpen;
     public AudioSource audioClose;
 
     Light lantern;
     float storedIntensity;
-    bool firstTimeToggled;
 
     void Awake()
     {
@@ -34,7 +31,6 @@ public class LanternController : MonoBehaviour
 
     private void Start()
     {
-        firstTimeToggled = true;
         lantern.enabled = true;
         storedIntensity = lantern.intensity;
 
@@ -49,12 +45,6 @@ public class LanternController : MonoBehaviour
             lantern.enabled = !lantern.enabled;
             if (lantern.enabled) audioOpen.Play();
             else audioClose.Play();
-
-            if (firstTimeToggled)
-            {
-                lanternTutorialText.SetActive(false);
-                firstTimeToggled = false;
-            }
         }
     }
 

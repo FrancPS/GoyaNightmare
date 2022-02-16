@@ -16973,7 +16973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b610e52a79ad7da49ba05528d45b04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyMaterial: {fileID: 2100000, guid: 9eb11958ef4597748a6d0787692d61c3, type: 2}
+  emptyMaterial: {fileID: 2100000, guid: 7c3c043f960dc5249b090e156ec5f182, type: 2}
   paintingMaterial: {fileID: 2100000, guid: a3a0af71dcd0e7f4e9a462398ffce63e, type: 2}
 --- !u!1001 &702682073
 PrefabInstance:
@@ -47136,7 +47136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b610e52a79ad7da49ba05528d45b04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyMaterial: {fileID: 2100000, guid: 9eb11958ef4597748a6d0787692d61c3, type: 2}
+  emptyMaterial: {fileID: 2100000, guid: e7c4a449650240e4088e574335560575, type: 2}
   paintingMaterial: {fileID: 2100000, guid: 11824d869624b0743bb242df8e1e4340, type: 2}
 --- !u!1001 &1709770962
 PrefabInstance:
